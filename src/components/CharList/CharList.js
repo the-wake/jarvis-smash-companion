@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 // import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 
@@ -18,7 +18,7 @@ const CharList = ({ roster, statusNames, localRecord }) => {
   };
 
   return (
-    <div className={'roster-element'}>
+    <div id={'roster-element'}>
       {roster.map((character, pos) => (
         <img src={`images/${character.image}`} key={pos} name={character.name} data-id={character.id} alt={`${character.name}`} className={`char-image ${localRecord[character.id].status}`} onClick={cycleStatus} />
       ))}

@@ -1,12 +1,14 @@
 import './App.css';
 
+import React, { useEffect, useState } from 'react';
+
 import CharList from './components/CharList/CharList.js';
 import RandomButton from './components/RandomButton/RandomButton.js';
 import SaveButton from './components/SaveButton/SaveButton.js';
 import LoadButton from './components/LoadButton/LoadButton.js';
+import { render } from '@testing-library/react';
 
 function App() {
-
   const roster = [
     { id: 0, name: 'Mario', shortName: 'mario', image: '1_mario_00.png' },
     { id: 1, name: 'Donkey Kong', shortName: 'dk', image: '2_donkey_00.png' },
@@ -44,6 +46,15 @@ function App() {
     { name: 'Peach', status: statusNames[0] },
     { name: 'Daisy', status: statusNames[0] },
   ];
+
+  const [recordState, updateRecordState] = useState(localRecord);
+
+  // Just something I was trying to get the child components to force-update.
+  // const [, updateState] = React.useState();
+  // const forceUpdate = React.useCallback(() => updateState({}), []);
+
+
+  // console.log(localRecord);
 
   // let localRecord = {
   //   mario: statusNames[0],
@@ -98,13 +109,17 @@ function App() {
       if (confirm) {
         // console.log(storedRun);
         storedRun.map((character, pos) => {
-          console.log(`${roster[pos].name}: ${character.status}`);
-          
+          // console.log(`${roster[pos].name}: ${character.status}`);
+          localRecord[pos].status = character.status;
         });
+        updateRecordState({ ...localRecord });
       };
     };
   };
 
+  useEffect(() => {
+    console.log(recordState);
+  }, [recordState]);
   // Could add a filter here eventually to combine characters with their clones.
 
   return (
