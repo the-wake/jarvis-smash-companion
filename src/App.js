@@ -2,13 +2,23 @@ import './App.css';
 
 import React, { useEffect, useState } from 'react';
 
+import { hydrateRoot } from 'react-dom/client';
+
 import CharList from './components/CharList/CharList.js';
 import RandomButton from './components/RandomButton/RandomButton.js';
 import SaveButton from './components/SaveButton/SaveButton.js';
 import LoadButton from './components/LoadButton/LoadButton.js';
-import { render } from '@testing-library/react';
 
-function App() {
+// const rootElement = document.getElementById("root");
+
+
+// ReactDOM.render() is deprecated as of version 18:
+// Warning: ReactDOM.render is no longer supported in React 18. Use createRoot instead. Until you switch to the new API, your app will behave as if it's running React 17. Learn more: https://reactjs.org/link/switch-to-createroot
+
+
+
+function App({ container }) {
+
   const roster = [
     { id: 0, name: 'Mario', shortName: 'mario', image: '1_mario_00.png' },
     { id: 1, name: 'Donkey Kong', shortName: 'dk', image: '2_donkey_00.png' },
@@ -49,30 +59,13 @@ function App() {
 
   const [recordState, updateRecordState] = useState(localRecord);
 
+  // state = {
+  //   recordState
+  // }
+
   // Just something I was trying to get the child components to force-update.
   // const [, updateState] = React.useState();
   // const forceUpdate = React.useCallback(() => updateState({}), []);
-
-
-  // console.log(localRecord);
-
-  // let localRecord = {
-  //   mario: statusNames[0],
-  //   dk: statusNames[0],
-  //   link: statusNames[0],
-  //   samus: statusNames[0],
-  //   damus: statusNames[0],
-  //   yoshi: statusNames[0],
-  //   kirby: statusNames[0],
-  //   fox: statusNames[0],
-  //   pikachu: statusNames[0],
-  //   luigi: statusNames[0],
-  //   ness: statusNames[0],
-  //   falcon: statusNames[0],
-  //   jigglypuff: statusNames[0],
-  //   peach: statusNames[0],
-  //   deach: statusNames[0],
-  // }
 
   const randomize = () => {
     const charPool = [];
@@ -111,8 +104,14 @@ function App() {
         storedRun.map((character, pos) => {
           // console.log(`${roster[pos].name}: ${character.status}`);
           localRecord[pos].status = character.status;
+          return character.status;
         });
         updateRecordState({ ...localRecord });
+        const container = document.getElementById('list-area');
+        const root = hydrateRoot(container, <CharList roster={roster} statusNames={statusNames} localRecord={localRecord} state={localRecord} />);
+        // ReactDOM.render(<App />, rootElement);
+        // root.render(CharList);
+        // Also have to update the random status.
       };
     };
   };
@@ -129,13 +128,15 @@ function App() {
           Jarvis: The Smash Bros. Ultimate Ironman Assistant!
         </h1>
       </header>
-      <CharList roster={roster} statusNames={statusNames} localRecord={localRecord} />
+      <div id={'list-area'}>
+        <CharList roster={roster} statusNames={statusNames} localRecord={localRecord} state={localRecord} />
+      </div>
       <div id={'button-container'}>
         <RandomButton randomize={randomize} />
         <SaveButton saveRun={saveRun} />
         <LoadButton loadRun={loadRun} />
       </div>
-      <h3 id={'char-area'}></h3>
+      <h3 id={'char-area'}> </h3>
     </div>
   );
 };
