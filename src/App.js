@@ -78,7 +78,7 @@ function App() {
     const charPool = [];
 
     for (const character of roster) {
-      if (localRecord[character.name] === 'unplayed') {
+      if (localRecord[character.id].status === 'unplayed') {
         charPool.push(character)
       }
     }
