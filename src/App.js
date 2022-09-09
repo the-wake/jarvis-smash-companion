@@ -92,33 +92,34 @@ function App({ container }) {
     console.log('Run saved locally');
   };
 
-  const loadRun = () => {
-    const storedRun = JSON.parse(localStorage.getItem('stored-run'));
+  // const loadRun = () => {
+  //   const storedRun = JSON.parse(localStorage.getItem('stored-run'));
 
-    if (!storedRun) {
-      window.alert('You have no saved run.');
-    } else {
-      const confirm = window.confirm('Would you like to load your last run data?');
-      if (confirm) {
-        // console.log(storedRun);
-        storedRun.map((character, pos) => {
-          // console.log(`${roster[pos].name}: ${character.status}`);
-          localRecord[pos].status = character.status;
-          return character.status;
-        });
-        updateRecordState({ ...localRecord });
-        const container = document.getElementById('list-area');
-        const root = hydrateRoot(container, <CharList roster={roster} statusNames={statusNames} localRecord={localRecord} state={localRecord} />);
-        // ReactDOM.render(<App />, rootElement);
-        // root.render(CharList);
-        // Also have to update the random status.
-      };
-    };
-  };
+  //   if (!storedRun) {
+  //     window.alert('You have no saved run.');
+  //   } else {
+  //     const confirm = window.confirm('Would you like to load your last run data?');
+  //     if (confirm) {
+  //       // console.log(storedRun);
+  //       storedRun.map((character, pos) => {
+  //         // console.log(`${roster[pos].name}: ${character.status}`);
+  //         localRecord[pos].status = character.status;
+  //         return character.status;
+  //       });
+  //       updateRecordState({ ...localRecord });
+  //       const container = document.getElementById('list-area');
+  //       const root = hydrateRoot(container, <CharList roster={roster} statusNames={statusNames} localRecord={localRecord} state={localRecord} />);
+  //       // ReactDOM.render(<App />, rootElement);
+  //       // root.render(CharList);
+  //       // Also have to update the random status.
+  //     };
+  //   };
+  // };
 
-  useEffect(() => {
-    console.log(recordState);
-  }, [recordState]);
+  // useEffect(() => {
+  //   console.log(recordState);
+  // }, [recordState]);
+  
   // Could add a filter here eventually to combine characters with their clones.
 
   return (
@@ -134,7 +135,7 @@ function App({ container }) {
       <div id={'button-container'}>
         <RandomButton randomize={randomize} />
         <SaveButton saveRun={saveRun} />
-        <LoadButton loadRun={loadRun} />
+        {/* <LoadButton loadRun={loadRun} /> */}
       </div>
       <h3 id={'char-area'}> </h3>
     </div>

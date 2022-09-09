@@ -33,6 +33,13 @@ import './CharList.css';
 
 const CharList = ({ roster, statusNames, localRecord }) => {
 
+  const storedRun = JSON.parse(localStorage.getItem('stored-run'));
+
+  for (var i = 0; i < storedRun.length; i++) {
+    localRecord[i].status = storedRun[i].status || 'unplayed';
+  };
+  console.log(localRecord);
+
   const cycleStatus = (e) => {
     const targetChar = e.target;
     let statusIndex = statusNames.indexOf(targetChar.classList[1]);
