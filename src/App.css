@@ -36,3 +36,19 @@
     transform: rotate(360deg);
   }
 }
+
+
+/* Begin custom CSS */
+
+
+#button-container {
+  display: inline;
+  float: right;
+  margin: 25px 25px 0 0;
+}
+
+button {
+  display: block;
+  width: 100%;
+  margin: 4px 0px;
+}

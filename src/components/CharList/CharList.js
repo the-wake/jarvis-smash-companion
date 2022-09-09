@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
-import './CharList.css';
-
 // import { Form, Button, Container, Row, Col } from 'react-bootstrap';
+
+import './CharList.css';
 
 const CharList = ({ roster, statusNames, localRecord }) => {
 

@@ -4,9 +4,7 @@ import './RandomButton.css';
 
 const RandomButton = ({ randomize }) => {
   return (
-    <div className={'buttonContainer'}>
-      <button onClick={randomize}>Random Character</button>
-    </div>
+    <button onClick={randomize}>Random Character</button>
   )
 }
 

@@ -2,6 +2,8 @@ import './App.css';
 
 import CharList from './components/CharList/CharList.js';
 import RandomButton from './components/RandomButton/RandomButton.js';
+import SaveButton from './components/SaveButton/SaveButton.js';
+import LoadButton from './components/LoadButton/LoadButton.js';
 
 function App() {
 
@@ -56,11 +58,32 @@ function App() {
     if (charPool.length === 0) {
       document.getElementById('char-area').innerHTML = 'Finished!';
     }
-    
-    else { 
+
+    else {
       let rand = Math.floor(Math.random() * charPool.length);
       document.getElementById('char-area').innerHTML = charPool[rand].name;
     }
+  };
+
+  const saveRun = () => {
+    localStorage.setItem('stored-run', JSON.stringify(localRecord));
+    console.log('Run saved locally');
+  };
+
+  const loadRun = () => {
+    const storedRun = JSON.parse(localStorage.getItem('stored-run'));
+
+    if (!storedRun) {
+      window.alert('You have no saved run.');
+    } else {
+      const confirm = window.confirm('Would you like to load your last run data?');
+      if (confirm) {
+        // console.log(storedRun);
+        storedRun.map((status, pos) => {
+          console.log(`${roster[pos].name}: ${status}`);
+        });
+      };
+    };
   };
 
   // Could add a filter here eventually to combine characters with their clones.
@@ -73,7 +96,11 @@ function App() {
         </h1>
       </header>
       <CharList roster={roster} statusNames={statusNames} localRecord={localRecord} />
-      <RandomButton randomize={randomize}/>
+      <div id={'button-container'}>
+        <RandomButton randomize={randomize} />
+        <SaveButton saveRun={saveRun} />
+        <LoadButton loadRun={loadRun} />
+      </div>
       <h3 id={'char-area'}></h3>
     </div>
   );
