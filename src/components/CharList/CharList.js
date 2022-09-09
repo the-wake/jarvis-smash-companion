@@ -33,7 +33,7 @@ import './CharList.css';
 
 const CharList = ({ roster, statusNames, localRecord }) => {
 
-  const storedRun = JSON.parse(localStorage.getItem('stored-run'));
+  const storedRun = JSON.parse(localStorage.getItem('stored-run')) || localRecord;
 
   for (var i = 0; i < storedRun.length; i++) {
     localRecord[i].status = storedRun[i].status || 'unplayed';

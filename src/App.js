@@ -7,7 +7,8 @@ import { hydrateRoot } from 'react-dom/client';
 import CharList from './components/CharList/CharList.js';
 import RandomButton from './components/RandomButton/RandomButton.js';
 import SaveButton from './components/SaveButton/SaveButton.js';
-import LoadButton from './components/LoadButton/LoadButton.js';
+// import LoadButton from './components/LoadButton/LoadButton.js';
+import ClearButton from './components/ClearButton/ClearButton.js';
 
 // const rootElement = document.getElementById("root");
 
@@ -59,14 +60,6 @@ function App({ container }) {
 
   const [recordState, updateRecordState] = useState(localRecord);
 
-  // state = {
-  //   recordState
-  // }
-
-  // Just something I was trying to get the child components to force-update.
-  // const [, updateState] = React.useState();
-  // const forceUpdate = React.useCallback(() => updateState({}), []);
-
   const randomize = () => {
     const charPool = [];
 
@@ -91,6 +84,14 @@ function App({ container }) {
     localStorage.setItem('stored-run', JSON.stringify(localRecord));
     console.log('Run saved locally');
   };
+
+  // const clearRun = () => {
+  //   for (const character of localRecord) {
+  //     character.status = statusNames[0]
+  //   }
+  //   localStorage.setItem('stored-run', localRecord);
+  //   console.log(`Cleared Record: ${localRecord}`);
+  // };
 
   // const loadRun = () => {
   //   const storedRun = JSON.parse(localStorage.getItem('stored-run'));
@@ -119,7 +120,7 @@ function App({ container }) {
   // useEffect(() => {
   //   console.log(recordState);
   // }, [recordState]);
-  
+
   // Could add a filter here eventually to combine characters with their clones.
 
   return (
@@ -135,6 +136,7 @@ function App({ container }) {
       <div id={'button-container'}>
         <RandomButton randomize={randomize} />
         <SaveButton saveRun={saveRun} />
+        {/* <ClearButton clearRun={clearRun} /> */}
         {/* <LoadButton loadRun={loadRun} /> */}
       </div>
       <h3 id={'char-area'}> </h3>
