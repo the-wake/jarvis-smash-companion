@@ -27,29 +27,47 @@ function App() {
 
   const statusNames = ['unplayed', 'won', 'lost',];
 
-  let localRecord = {
-    mario: statusNames[0],
-    dk: statusNames[0],
-    link: statusNames[0],
-    samus: statusNames[0],
-    damus: statusNames[0],
-    yoshi: statusNames[0],
-    kirby: statusNames[0],
-    fox: statusNames[0],
-    pikachu: statusNames[0],
-    luigi: statusNames[0],
-    ness: statusNames[0],
-    falcon: statusNames[0],
-    jigglypuff: statusNames[0],
-    peach: statusNames[0],
-    deach: statusNames[0],
-  };
+  let localRecord = [
+    { name: 'Mario', status: statusNames[0] },
+    { name: 'Donkey Kong', status: statusNames[0] },
+    { name: 'Link', status: statusNames[0] },
+    { name: 'Samus', status: statusNames[0] },
+    { name: 'Damus', status: statusNames[0] },
+    { name: 'Yoshi', status: statusNames[0] },
+    { name: 'Kirby', status: statusNames[0] },
+    { name: 'Fox', status: statusNames[0] },
+    { name: 'Pikachu', status: statusNames[0] },
+    { name: 'Luigi', status: statusNames[0] },
+    { name: 'Ness', status: statusNames[0] },
+    { name: 'Captain Falcon', status: statusNames[0] },
+    { name: 'Jigglypuff', status: statusNames[0] },
+    { name: 'Peach', status: statusNames[0] },
+    { name: 'Daisy', status: statusNames[0] },
+  ];
+
+  // let localRecord = {
+  //   mario: statusNames[0],
+  //   dk: statusNames[0],
+  //   link: statusNames[0],
+  //   samus: statusNames[0],
+  //   damus: statusNames[0],
+  //   yoshi: statusNames[0],
+  //   kirby: statusNames[0],
+  //   fox: statusNames[0],
+  //   pikachu: statusNames[0],
+  //   luigi: statusNames[0],
+  //   ness: statusNames[0],
+  //   falcon: statusNames[0],
+  //   jigglypuff: statusNames[0],
+  //   peach: statusNames[0],
+  //   deach: statusNames[0],
+  // }
 
   const randomize = () => {
     const charPool = [];
 
     for (const character of roster) {
-      if (localRecord[character.shortName] === 'unplayed') {
+      if (localRecord[character.name] === 'unplayed') {
         charPool.push(character)
       }
     }
