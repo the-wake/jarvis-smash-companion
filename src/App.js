@@ -97,8 +97,9 @@ function App() {
       const confirm = window.confirm('Would you like to load your last run data?');
       if (confirm) {
         // console.log(storedRun);
-        storedRun.map((status, pos) => {
-          console.log(`${roster[pos].name}: ${status}`);
+        storedRun.map((character, pos) => {
+          console.log(`${roster[pos].name}: ${character.status}`);
+          
         });
       };
     };
