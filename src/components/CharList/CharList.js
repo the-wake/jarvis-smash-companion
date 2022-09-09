@@ -59,7 +59,7 @@ const CharList = ({ roster, statusNames, localRecord }) => {
     let statusIndex = statusNames.indexOf(targetChar.classList[1]);
     targetChar.classList.replace(statusNames[statusIndex], statusNames[statusIndex + 1] || statusNames[0]);
 
-    localRecord[targetChar.dataset.id] = statusNames[statusIndex + 1] || statusNames[0];
+    localRecord[targetChar.dataset.nickname] = statusNames[statusIndex + 1] || statusNames[0];
     console.log(localRecord);
   };
 
@@ -77,7 +77,7 @@ const CharList = ({ roster, statusNames, localRecord }) => {
   return (
     <div className={'roster-element'}>
       {roster.map((character, pos) => (
-        <img src={`images/${character.image}`} key={pos} name={character.name} data-id={character.id} alt={`${character.name}`} className={`char-image ${localRecord[character.id]}`} onClick={cycleStatus} />
+        <img src={`images/${character.image}`} key={pos} name={character.name} data-nickname={character.shortName} alt={`${character.name}`} className={`char-image ${localRecord[character.shortName]}`} onClick={cycleStatus} />
       ))}
       {/* <button onClick={randomize}>Get Random Character</button> */}
     </div>
