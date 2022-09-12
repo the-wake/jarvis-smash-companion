@@ -131,7 +131,7 @@ function App({ container }) {
         </h1>
       </header>
       <div id={'list-area'}>
-        <CharList roster={roster} statusNames={statusNames} localRecord={localRecord} state={localRecord} />
+        <CharList roster={roster} statusNames={statusNames} localRecord={localRecord} recordState={recordState} updateRecordState={updateRecordState} state={localRecord} />
       </div>
       <div id={'button-container'}>
         <RandomButton randomize={randomize} />
