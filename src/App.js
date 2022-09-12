@@ -3,36 +3,31 @@ import './App.css';
 import React, { useState } from 'react';
 
 import CharList from './components/CharList/CharList.js';
-// const rootElement = document.getElementById("root");
-
-
-// ReactDOM.render() is deprecated as of version 18:
-// Warning: ReactDOM.render is no longer supported in React 18. Use createRoot instead. Until you switch to the new API, your app will behave as if it's running React 17. Learn more: https://reactjs.org/link/switch-to-createroot
 
 
 
 function App({ container }) {
 
   let baseRoster = [
-    { id: 0, name: 'Mario', shortName: 'mario', image: '1_mario_00.png' },
-    { id: 1, name: 'Donkey Kong', shortName: 'dk', image: '2_donkey_00.png' },
-    { id: 2, name: 'Link', shortName: 'link', image: '3_link_00.png' },
-    { id: 3, name: 'Samus', shortName: 'samus', image: '4_samus_00.png' },
-    { id: 4, name: 'Dark Samus', shortName: 'damus', image: '5_damus_00.png' },
-    { id: 5, name: 'Yoshi', shortName: 'yoshi', image: '6_yoshi_00.png' },
-    { id: 6, name: 'Kirby', shortName: 'kirby', image: '7_kirby_00.png' },
-    { id: 7, name: 'Fox', shortName: 'fox', image: '8_fox_00.png' },
-    { id: 8, name: 'Pikachu', shortName: 'pikachu', image: '9_pikachu_00.png' },
-    { id: 9, name: 'Luigi', shortName: 'luigi', image: '10_luigi_00.png' },
-    { id: 10, name: 'Ness', shortName: 'ness', image: '11_ness_00.png' },
-    { id: 11, name: 'Captain Falcon', shortName: 'falcon', image: '12_falcon_00.png' },
-    { id: 12, name: 'Jigglypuff', shortName: 'jigglypuff', image: '13_jigglypuff_00.png' },
-    { id: 13, name: 'Peach', shortName: 'peach', image: '14_peach_00.png' },
-    { id: 14, name: 'Daisy', shortName: 'deach', image: '15_daisy_00.png' },
-    { id: 15, name: 'Bowser', shortName: 'bowser', },
-    { id: 16, name: 'Ice Climbers', shortName: 'climbers', },
-    { id: 17, name: 'Sheik', shortName: 'sheik', },
-    { id: 18, name: 'Zelda', shortName: 'zelda', },
+    { id: 0, name: 'Mario', shortName: 'mario' },
+    { id: 1, name: 'Donkey Kong', shortName: 'dk' },
+    { id: 2, name: 'Link', shortName: 'link' },
+    { id: 3, name: 'Samus', shortName: 'samus' },
+    { id: 4, name: 'Dark Samus', shortName: 'damus' },
+    { id: 5, name: 'Yoshi', shortName: 'yoshi' },
+    { id: 6, name: 'Kirby', shortName: 'kirby' },
+    { id: 7, name: 'Fox', shortName: 'fox' },
+    { id: 8, name: 'Pikachu', shortName: 'pikachu' },
+    { id: 9, name: 'Luigi', shortName: 'luigi' },
+    { id: 10, name: 'Ness', shortName: 'ness' },
+    { id: 11, name: 'Captain Falcon', shortName: 'falcon' },
+    { id: 12, name: 'Jigglypuff', shortName: 'jigglypuff' },
+    { id: 13, name: 'Peach', shortName: 'peach' },
+    { id: 14, name: 'Daisy', shortName: 'deach' },
+    { id: 15, name: 'Bowser', shortName: 'bowser' },
+    { id: 16, name: 'Ice Climbers', shortName: 'climbers' },
+    { id: 17, name: 'Sheik', shortName: 'sheik' },
+    { id: 18, name: 'Zelda', shortName: 'zelda' },
     { id: 19, name: 'Doctor Mario', shortName: 'dario', },
     { id: 20, name: 'Pichu', shortName: 'pichu', },
     { id: 21, name: 'Falco', shortName: 'falco' },
@@ -105,14 +100,14 @@ function App({ container }) {
   for (var character of baseRoster) {
     const rosterNum = character.id+1
     character.image=`${rosterNum}_${character.shortName}_00.png`;
-  }
+  };
 
   const roster = baseRoster;
 
   const statusNames = ['unplayed', 'won', 'lost',];
 
   // Can probably just make this a constant that stores default statuses to seed the initial data. Should be using state to track changes rather than a variable anyway.
-  let localRecord = [
+  let initialRecord = [
     { name: 'Mario', status: statusNames[0] },
     { name: 'Donkey Kong', status: statusNames[0] },
     { name: 'Link', status: statusNames[0] },
@@ -201,12 +196,11 @@ function App({ container }) {
     { name: 'Mii Gunner', status: statusNames[0] },
   ];
 
-  // Update recordState to reflect localStorage, if it exists.
-  const storedRun = JSON.parse(localStorage.getItem('stored-run')) || localRecord;
+  // Initailize the current run as the local storage if it exists, or as initialRecord if not.
+  const storedRun = JSON.parse(localStorage.getItem('stored-run')) || initialRecord;
 
-  // Create a temporary variable to store data from the loop, then use it to run setRecordState.
-
-  let loadedInstance = localRecord;
+  // Create a temporary variable to store data from the loop, then use it to initialize the recordState.
+  let loadedInstance = initialRecord;
   for (var i = 0; i < storedRun.length; i++) {
     loadedInstance[i].status = storedRun[i].status || 'unplayed';
   };
@@ -220,7 +214,6 @@ function App({ container }) {
     for (const character of roster) {
       if (recordState[character.id].status === 'unplayed') {
         charPool.push(character)
-        // console.log(`Pushed ${character.name}`)
       }
     }
     console.log(charPool);
@@ -235,7 +228,7 @@ function App({ container }) {
   };
 
   const saveRun = () => {
-    localStorage.setItem('stored-run', JSON.stringify(localRecord));
+    localStorage.setItem('stored-run', JSON.stringify(initialRecord));
     console.log('Run saved locally');
   };
 
@@ -276,34 +269,3 @@ function App({ container }) {
 };
 
 export default App;
-
-
-
-// Root hydration version (which can't pass classes properly).
-  // const loadRun = () => {
-  //   const storedRun = JSON.parse(localStorage.getItem('stored-run'));
-
-  //   if (!storedRun) {
-  //     window.alert('You have no saved run.');
-  //   } else {
-  //     const confirm = window.confirm('Would you like to load your last run data?');
-  //     if (confirm) {
-  //       // console.log(storedRun);
-  //       storedRun.map((character, pos) => {
-  //         // console.log(`${roster[pos].name}: ${character.status}`);
-  //         localRecord[pos].status = character.status;
-  //         return character.status;
-  //       });
-  //       updateRecordState({ ...localRecord });
-  //       const container = document.getElementById('list-area');
-  //       const root = hydrateRoot(container, <CharList roster={roster} statusNames={statusNames} localRecord={localRecord} state={localRecord} />);
-  //       // ReactDOM.render(<App />, rootElement);
-  //       // root.render(CharList);
-  //       // Also have to update the random status.
-  //     };
-  //   };
-  // };
-
-  // useEffect(() => {
-  //   console.log(recordState);
-  // }, [recordState]);
