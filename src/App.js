@@ -62,14 +62,14 @@ function App({ container }) {
   // Update recordState to reflect localStorage, if it exists.
   const storedRun = JSON.parse(localStorage.getItem('stored-run')) || localRecord;
 
-  // Create a temporary variable to store data from the loop, then use it to run updateRecordState.
+  // Create a temporary variable to store data from the loop, then use it to run setRecordState.
 
   let loadedInstance = localRecord;
   for (var i = 0; i < storedRun.length; i++) {
     loadedInstance[i].status = storedRun[i].status || 'unplayed';
   };
 
-  const [recordState, updateRecordState] = useState(loadedInstance);
+  const [recordState, setRecordState] = useState(loadedInstance);
   console.log(loadedInstance);
 
   const randomize = () => {
@@ -98,13 +98,15 @@ function App({ container }) {
     console.log('Run saved locally');
   };
 
-  // const clearRun = () => {
-  //   for (const character of localRecord) {
-  //     character.status = statusNames[0]
-  //   }
-  //   localStorage.setItem('stored-run', localRecord);
-  //   console.log(`Cleared Record: ${localRecord}`);
-  // };
+  const clearRun = () => {
+    let instanceRecord = recordState;
+    for (const character of instanceRecord) {
+      character.status = statusNames[0];
+    };
+    localStorage.setItem('stored-run', JSON.stringify(instanceRecord));
+    console.log('Cleared Record:', instanceRecord);
+    setRecordState(instanceRecord);
+  };
 
   // const loadRun = () => {
   //   const storedRun = JSON.parse(localStorage.getItem('stored-run'));
@@ -144,12 +146,12 @@ function App({ container }) {
         </h1>
       </header>
       <div id={'list-area'}>
-        <CharList roster={roster} statusNames={statusNames} recordState={recordState} updateRecordState={updateRecordState} />
+        <CharList roster={roster} statusNames={statusNames} recordState={recordState} setRecordState={setRecordState} />
       </div>
       <div id={'button-container'}>
         <RandomButton randomize={randomize} />
         <SaveButton saveRun={saveRun} />
-        {/* <ClearButton clearRun={clearRun} /> */}
+        <ClearButton clearRun={clearRun} />
         {/* <LoadButton loadRun={loadRun} /> */}
       </div>
       <h3 id={'char-area'}> </h3>
