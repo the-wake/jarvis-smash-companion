@@ -6,7 +6,7 @@ class CharList extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {localRecord: props.localRecord};
+    this.state = {localRecord: props.recordState};
   }
 
   render() {
@@ -14,12 +14,12 @@ class CharList extends React.Component {
     let localRecord = this.state.localRecord;
 
     // Populate sheet with stored run if it exists, or with data passed from parent to state.localRecord if not.
-    const storedRun = JSON.parse(localStorage.getItem('stored-run')) || localRecord;
+    // const storedRun = JSON.parse(localStorage.getItem('stored-run')) || localRecord;
 
-    for (var i = 0; i < storedRun.length; i++) {
-      localRecord[i].status = storedRun[i].status || 'unplayed';
-    };
-    console.log(localRecord);
+    // for (var i = 0; i < storedRun.length; i++) {
+    //   localRecord[i].status = storedRun[i].status || 'unplayed';
+    // };
+    // console.log(localRecord);
 
     const cycleStatus = (e) => {
       const targetChar = e.target;

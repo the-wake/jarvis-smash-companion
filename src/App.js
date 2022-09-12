@@ -40,6 +40,7 @@ function App({ container }) {
 
   const statusNames = ['unplayed', 'won', 'lost',];
 
+  // Can probably just make this a constant that stores default statuses to seed the initial data. Should be using state to track changes rather than a variable anyway.
   let localRecord = [
     { name: 'Mario', status: statusNames[0] },
     { name: 'Donkey Kong', status: statusNames[0] },
@@ -58,14 +59,26 @@ function App({ container }) {
     { name: 'Daisy', status: statusNames[0] },
   ];
 
-  const [recordState, updateRecordState] = useState(localRecord);
+  // Update recordState to reflect localStorage, if it exists.
+  const storedRun = JSON.parse(localStorage.getItem('stored-run')) || localRecord;
+
+  // Create a temporary variable to store data from the loop, then use it to run updateRecordState.
+
+  let loadedInstance = localRecord;
+  for (var i = 0; i < storedRun.length; i++) {
+    loadedInstance[i].status = storedRun[i].status || 'unplayed';
+  };
+
+  const [recordState, updateRecordState] = useState(loadedInstance);
+  console.log(loadedInstance);
 
   const randomize = () => {
     const charPool = [];
 
     for (const character of roster) {
-      if (localRecord[character.id].status === 'unplayed') {
+      if (recordState[character.id].status === 'unplayed') {
         charPool.push(character)
+        // console.log(`Pushed ${character.name}`)
       }
     }
     console.log(charPool);
@@ -131,7 +144,7 @@ function App({ container }) {
         </h1>
       </header>
       <div id={'list-area'}>
-        <CharList roster={roster} statusNames={statusNames} localRecord={localRecord} recordState={recordState} updateRecordState={updateRecordState} state={localRecord} />
+        <CharList roster={roster} statusNames={statusNames} recordState={recordState} updateRecordState={updateRecordState} />
       </div>
       <div id={'button-container'}>
         <RandomButton randomize={randomize} />
