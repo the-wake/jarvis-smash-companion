@@ -2,13 +2,7 @@ import './App.css';
 
 import React, { useEffect, useState } from 'react';
 
-import { hydrateRoot } from 'react-dom/client';
-
 import CharList from './components/CharList/CharList.js';
-import RandomButton from './components/RandomButton/RandomButton.js';
-import SaveButton from './components/SaveButton/SaveButton.js';
-import LoadButton from './components/LoadButton/LoadButton.js';
-
 // const rootElement = document.getElementById("root");
 
 
@@ -39,6 +33,7 @@ function App({ container }) {
 
   const statusNames = ['unplayed', 'won', 'lost',];
 
+  // Can probably just make this a constant that stores default statuses to seed the initial data. Should be using state to track changes rather than a variable anyway.
   let localRecord = [
     { name: 'Mario', status: statusNames[0] },
     { name: 'Donkey Kong', status: statusNames[0] },
@@ -57,22 +52,26 @@ function App({ container }) {
     { name: 'Daisy', status: statusNames[0] },
   ];
 
-  const [recordState, updateRecordState] = useState(localRecord);
+  // Update recordState to reflect localStorage, if it exists.
+  const storedRun = JSON.parse(localStorage.getItem('stored-run')) || localRecord;
 
-  // state = {
-  //   recordState
-  // }
+  // Create a temporary variable to store data from the loop, then use it to run setRecordState.
 
-  // Just something I was trying to get the child components to force-update.
-  // const [, updateState] = React.useState();
-  // const forceUpdate = React.useCallback(() => updateState({}), []);
+  let loadedInstance = localRecord;
+  for (var i = 0; i < storedRun.length; i++) {
+    loadedInstance[i].status = storedRun[i].status || 'unplayed';
+  };
+
+  const [recordState, setRecordState] = useState(loadedInstance);
+  const [dummyState, setDummyState] = useState(true);
 
   const randomize = () => {
     const charPool = [];
 
     for (const character of roster) {
-      if (localRecord[character.id].status === 'unplayed') {
+      if (recordState[character.id].status === 'unplayed') {
         charPool.push(character)
+        // console.log(`Pushed ${character.name}`)
       }
     }
     console.log(charPool);
@@ -80,7 +79,6 @@ function App({ container }) {
     if (charPool.length === 0) {
       document.getElementById('char-area').innerHTML = 'Finished!';
     }
-
     else {
       let rand = Math.floor(Math.random() * charPool.length);
       document.getElementById('char-area').innerHTML = charPool[rand].name;
@@ -92,33 +90,20 @@ function App({ container }) {
     console.log('Run saved locally');
   };
 
-  const loadRun = () => {
-    const storedRun = JSON.parse(localStorage.getItem('stored-run'));
+  const clearRun = () => {
+    const clearRun = window.confirm('Clear current run?');
 
-    if (!storedRun) {
-      window.alert('You have no saved run.');
-    } else {
-      const confirm = window.confirm('Would you like to load your last run data?');
-      if (confirm) {
-        // console.log(storedRun);
-        storedRun.map((character, pos) => {
-          // console.log(`${roster[pos].name}: ${character.status}`);
-          localRecord[pos].status = character.status;
-          return character.status;
-        });
-        updateRecordState({ ...localRecord });
-        const container = document.getElementById('list-area');
-        const root = hydrateRoot(container, <CharList roster={roster} statusNames={statusNames} localRecord={localRecord} state={localRecord} />);
-        // ReactDOM.render(<App />, rootElement);
-        // root.render(CharList);
-        // Also have to update the random status.
+    if (clearRun) {
+      let instanceRecord = recordState;
+      for (const character of instanceRecord) {
+        character.status = statusNames[0];
       };
+      localStorage.setItem('stored-run', JSON.stringify(instanceRecord));
+      setRecordState(instanceRecord);
+      setDummyState(!dummyState);
     };
   };
 
-  useEffect(() => {
-    console.log(recordState);
-  }, [recordState]);
   // Could add a filter here eventually to combine characters with their clones.
 
   return (
@@ -129,12 +114,12 @@ function App({ container }) {
         </h1>
       </header>
       <div id={'list-area'}>
-        <CharList roster={roster} statusNames={statusNames} localRecord={localRecord} state={localRecord} />
+        <CharList roster={roster} statusNames={statusNames} recordState={recordState} setRecordState={setRecordState} />
       </div>
       <div id={'button-container'}>
-        <RandomButton randomize={randomize} />
-        <SaveButton saveRun={saveRun} />
-        <LoadButton loadRun={loadRun} />
+        <button onClick={randomize}>Random Character</button>
+        <button onClick={saveRun}>Save Run Data</button>
+        <button onClick={clearRun}>Clear Run Data</button>
       </div>
       <h3 id={'char-area'}> </h3>
     </div>
@@ -142,3 +127,34 @@ function App({ container }) {
 };
 
 export default App;
+
+
+
+// Root hydration version (which can't pass classes properly).
+  // const loadRun = () => {
+  //   const storedRun = JSON.parse(localStorage.getItem('stored-run'));
+
+  //   if (!storedRun) {
+  //     window.alert('You have no saved run.');
+  //   } else {
+  //     const confirm = window.confirm('Would you like to load your last run data?');
+  //     if (confirm) {
+  //       // console.log(storedRun);
+  //       storedRun.map((character, pos) => {
+  //         // console.log(`${roster[pos].name}: ${character.status}`);
+  //         localRecord[pos].status = character.status;
+  //         return character.status;
+  //       });
+  //       updateRecordState({ ...localRecord });
+  //       const container = document.getElementById('list-area');
+  //       const root = hydrateRoot(container, <CharList roster={roster} statusNames={statusNames} localRecord={localRecord} state={localRecord} />);
+  //       // ReactDOM.render(<App />, rootElement);
+  //       // root.render(CharList);
+  //       // Also have to update the random status.
+  //     };
+  //   };
+  // };
+
+  // useEffect(() => {
+  //   console.log(recordState);
+  // }, [recordState]);
