@@ -2,14 +2,7 @@ import './App.css';
 
 import React, { useEffect, useState } from 'react';
 
-import { hydrateRoot } from 'react-dom/client';
-
 import CharList from './components/CharList/CharList.js';
-import RandomButton from './components/RandomButton/RandomButton.js';
-import SaveButton from './components/SaveButton/SaveButton.js';
-// import LoadButton from './components/LoadButton/LoadButton.js';
-import ClearButton from './components/ClearButton/ClearButton.js';
-
 // const rootElement = document.getElementById("root");
 
 
@@ -70,7 +63,7 @@ function App({ container }) {
   };
 
   const [recordState, setRecordState] = useState(loadedInstance);
-  console.log(loadedInstance);
+  const [dummyState, setDummyState] = useState(true);
 
   const randomize = () => {
     const charPool = [];
@@ -86,7 +79,6 @@ function App({ container }) {
     if (charPool.length === 0) {
       document.getElementById('char-area').innerHTML = 'Finished!';
     }
-
     else {
       let rand = Math.floor(Math.random() * charPool.length);
       document.getElementById('char-area').innerHTML = charPool[rand].name;
@@ -99,15 +91,46 @@ function App({ container }) {
   };
 
   const clearRun = () => {
-    let instanceRecord = recordState;
-    for (const character of instanceRecord) {
-      character.status = statusNames[0];
+    const clearRun = window.confirm('Clear current run?');
+
+    if (clearRun) {
+      let instanceRecord = recordState;
+      for (const character of instanceRecord) {
+        character.status = statusNames[0];
+      };
+      localStorage.setItem('stored-run', JSON.stringify(instanceRecord));
+      setRecordState(instanceRecord);
+      setDummyState(!dummyState);
     };
-    localStorage.setItem('stored-run', JSON.stringify(instanceRecord));
-    console.log('Cleared Record:', instanceRecord);
-    setRecordState(instanceRecord);
   };
 
+  // Could add a filter here eventually to combine characters with their clones.
+
+  return (
+    <div className="App">
+      <header>
+        <h1>
+          Jarvis: The Smash Bros. Ultimate Ironman Assistant!
+        </h1>
+      </header>
+      <div id={'list-area'}>
+        <CharList roster={roster} statusNames={statusNames} recordState={recordState} setRecordState={setRecordState} />
+      </div>
+      <div id={'button-container'}>
+        <button onClick={randomize}>Random Character</button>
+        <button onClick={saveRun}>Save Run Data</button>
+        <button onClick={clearRun}>Clear Run Data</button>
+      </div>
+      <h3 id={'char-area'}> </h3>
+    </div>
+  );
+};
+
+export default App;
+
+
+
+// Root hydration version (which can't pass classes properly).
   // const loadRun = () => {
   //   const storedRun = JSON.parse(localStorage.getItem('stored-run'));
 
@@ -135,28 +158,3 @@ function App({ container }) {
   // useEffect(() => {
   //   console.log(recordState);
   // }, [recordState]);
-
-  // Could add a filter here eventually to combine characters with their clones.
-
-  return (
-    <div className="App">
-      <header>
-        <h1>
-          Jarvis: The Smash Bros. Ultimate Ironman Assistant!
-        </h1>
-      </header>
-      <div id={'list-area'}>
-        <CharList roster={roster} statusNames={statusNames} recordState={recordState} setRecordState={setRecordState} />
-      </div>
-      <div id={'button-container'}>
-        <RandomButton randomize={randomize} />
-        <SaveButton saveRun={saveRun} />
-        <ClearButton clearRun={clearRun} />
-        {/* <LoadButton loadRun={loadRun} /> */}
-      </div>
-      <h3 id={'char-area'}> </h3>
-    </div>
-  );
-};
-
-export default App;
