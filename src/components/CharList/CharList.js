@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import './CharList.css';
 
-const CharList = ({ roster, statusNames, recordState, setRecordState, setRandomChar, saveRun }) => {
+const CharList = ({ roster, statusNames, recordState, setRecordState, setRandomChar, setRunResults, saveRun }) => {
 
   let localRecord = recordState;
 
@@ -18,6 +18,7 @@ const CharList = ({ roster, statusNames, recordState, setRecordState, setRandomC
     localRecord[targetChar.dataset.id].status = statusNames[statusIndex + 1] || statusNames[0];
     setRecordState(localRecord);
     setRandomChar();
+    setRunResults();
     setDummyState(!dummyState);
     saveRun();
   };

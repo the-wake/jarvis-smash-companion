@@ -207,6 +207,7 @@ function App() {
 
   const [recordState, setRecordState] = useState(loadedInstance);
   const [randomChar, setRandomChar] = useState();
+  const [runResults, setRunResults] = useState();
   const [dummyState, setDummyState] = useState(true);
 
   const randomize = () => {
@@ -231,6 +232,24 @@ function App() {
     localStorage.setItem('stored-run', JSON.stringify(recordState));
   };
 
+  const finishRun = () => {
+    let resultStats = {}
+    resultStats.unplayed = recordState.filter((character) => character.status === statusNames[0]);
+    resultStats.won = recordState.filter((character) => character.status === statusNames[1]);
+    resultStats.lost = recordState.filter((character) => character.status === statusNames[2]);
+    resultStats.played = recordState.filter((character) => character.status === statusNames[1] || character.status === statusNames[2]);
+    console.log(resultStats);
+    if (resultStats.played.length === 0) {
+      setRunResults('It looks like you haven\'t entered any results.')
+    }
+    else if (resultStats.won.length === roster.length) {
+      setRunResults('Seriously?! You did it! Way to go!');
+    }
+    else {
+      setRunResults(`You played a total of ${resultStats.won.length + resultStats.lost.length} characters out of ${resultStats.played.length + resultStats.unplayed.length} characters. You won with ${resultStats.won.length}, and lost with ${resultStats.lost.length}.`);
+    };
+  };
+
   const clearRun = () => {
     const clearRun = window.confirm('Clear current run?');
 
@@ -242,6 +261,7 @@ function App() {
       localStorage.setItem('stored-run', JSON.stringify(instanceRecord));
       setRecordState(instanceRecord);
       setRandomChar();
+      setRunResults();
       setDummyState(!dummyState);
     };
   };
@@ -258,13 +278,16 @@ function App() {
       <div id={'main-wrapper'}>
         <div id={'toolbar'}>
           <div id={'button-container'}>
-            {/* <button onClick={saveRun}>Save Run Data</button> */}
             <button onClick={clearRun}>Clear Run Data</button>
             <button onClick={randomize}>Random Character</button>
             <h3 id={'random-area'}>{randomChar}</h3>
           </div>
         </div>
-        <CharList roster={roster} statusNames={statusNames} recordState={recordState} setRecordState={setRecordState} setRandomChar={setRandomChar} saveRun={saveRun} />
+        <div id={'list-wrapper'}>
+          <CharList roster={roster} statusNames={statusNames} recordState={recordState} setRecordState={setRecordState} setRandomChar={setRandomChar} setRunResults={setRunResults} saveRun={saveRun} />
+          <button id={'finish-button'} onClick={finishRun}>Finish Run!</button>
+          <div id={'results-el'}>{runResults}</div>
+        </div>
       </div>
     </div>
   );

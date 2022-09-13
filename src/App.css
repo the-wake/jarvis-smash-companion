@@ -75,3 +75,16 @@ button {
   border-color: black;
   border-radius: 10px; */
 }
+
+#list-wrapper {
+  margin: 0 auto;
+}
+
+#finish-button {
+  display: block;
+  margin: 10px auto;
+  height: 25px;
+  width: 80%;
+  font-size: 16px;
+  font-weight: bolder;
+}
