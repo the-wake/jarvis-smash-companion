@@ -6,7 +6,7 @@ import CharList from './components/CharList/CharList.js';
 
 
 
-function App({ container }) {
+function App() {
 
   let baseRoster = [
     { id: 0, name: 'Mario', shortName: 'mario' },
@@ -98,8 +98,8 @@ function App({ container }) {
   ];
 
   for (var character of baseRoster) {
-    const rosterNum = character.id+1
-    character.image=`${rosterNum}_${character.shortName}_00.png`;
+    const rosterNum = character.id + 1
+    character.image = `${rosterNum}_${character.shortName}_00.png`;
   };
 
   const roster = baseRoster;
@@ -206,10 +206,11 @@ function App({ container }) {
   };
 
   const [recordState, setRecordState] = useState(loadedInstance);
+  const [randomChar, setRandomChar] = useState();
   const [dummyState, setDummyState] = useState(true);
 
   const randomize = () => {
-    const charPool = [];
+    let charPool = [];
 
     for (const character of roster) {
       if (recordState[character.id].status === 'unplayed') {
@@ -219,11 +220,11 @@ function App({ container }) {
     console.log(charPool);
 
     if (charPool.length === 0) {
-      document.getElementById('char-area').innerHTML = 'Finished!';
+      setRandomChar('Finished!');
     }
     else {
       let rand = Math.floor(Math.random() * charPool.length);
-      document.getElementById('char-area').innerHTML = charPool[rand].name;
+      setRandomChar(charPool[rand].name);
     }
   };
 
@@ -242,11 +243,12 @@ function App({ container }) {
       };
       localStorage.setItem('stored-run', JSON.stringify(instanceRecord));
       setRecordState(instanceRecord);
+      setRandomChar();
       setDummyState(!dummyState);
     };
   };
 
-  // Could add a filter here eventually to combine characters with their clones.
+  // Could add a filter to combine characters with their clones.
 
   return (
     <div className="App">
@@ -255,15 +257,17 @@ function App({ container }) {
           Jarvis: The Smash Bros. Ultimate Ironman Assistant!
         </h1>
       </header>
-      <div id={'list-area'}>
-        <CharList roster={roster} statusNames={statusNames} recordState={recordState} setRecordState={setRecordState} />
+      <div id={'main-wrapper'}>
+        <div id={'toolbar'}>
+          <div id={'button-container'}>
+            <button onClick={saveRun}>Save Run Data</button>
+            <button onClick={clearRun}>Clear Run Data</button>
+            <button onClick={randomize}>Random Character</button>
+            <h3 id={'random-area'}>{randomChar}</h3>
+          </div>
+        </div>
+        <CharList roster={roster} statusNames={statusNames} recordState={recordState} setRecordState={setRecordState} setRandomChar={setRandomChar} />
       </div>
-      <div id={'button-container'}>
-        <button onClick={randomize}>Random Character</button>
-        <button onClick={saveRun}>Save Run Data</button>
-        <button onClick={clearRun}>Clear Run Data</button>
-      </div>
-      <h3 id={'char-area'}> </h3>
     </div>
   );
 };
