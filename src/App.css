@@ -76,6 +76,16 @@ button {
   border-radius: 10px; */
 }
 
+#random-area h3 {
+  margin: 12px 0 6px 0;
+}
+
+.random-child {
+  display: inline;
+  margin: 0 8px;
+}
+
+
 #list-wrapper {
   width: 100%;
 }

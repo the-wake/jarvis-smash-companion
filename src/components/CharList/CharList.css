@@ -21,6 +21,7 @@
 
 .unplayed {
   background-color: rgb(230, 230, 230);
+  opacity: 75%;
 }
 
 .won {
@@ -29,4 +30,9 @@
 
 .lost {
   background-color: red;
+}
+
+.highlighted {
+  opacity: 100%;
+  background-color: rgb(212, 0, 255);
 }

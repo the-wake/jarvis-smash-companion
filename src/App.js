@@ -206,25 +206,28 @@ function App() {
   };
 
   const [recordState, setRecordState] = useState(loadedInstance);
-  const [randomChar, setRandomChar] = useState();
+  const [randomChar, setRandomChar] = useState({ name: null });
   const [runResults, setRunResults] = useState();
+  const [runComplete, setRunComplete] = useState(false);
   const [dummyState, setDummyState] = useState(true);
 
   const randomize = () => {
-    let charPool = [];
+    if (!checkCompletion()) {
+      let charPool = [];
 
-    for (const character of roster) {
-      if (recordState[character.id].status === 'unplayed') {
-        charPool.push(character)
+      for (const character of roster) {
+        if (recordState[character.id].status === 'unplayed') {
+          charPool.push(character)
+        }
       }
-    }
 
-    if (charPool.length === 0) {
-      setRandomChar('Finished!');
-    }
-    else {
-      let rand = Math.floor(Math.random() * charPool.length);
-      setRandomChar(charPool[rand].name);
+      if (charPool.length === 0) {
+        setRandomChar({ name: 'Finished!' });
+      }
+      else {
+        let rand = Math.floor(Math.random() * charPool.length);
+        setRandomChar(charPool[rand]);
+      }
     }
   };
 
@@ -233,36 +236,50 @@ function App() {
   };
 
   const finishRun = () => {
-    let resultStats = {}
-    resultStats.unplayed = recordState.filter((character) => character.status === statusNames[0]);
-    resultStats.won = recordState.filter((character) => character.status === statusNames[1]);
-    resultStats.lost = recordState.filter((character) => character.status === statusNames[2]);
-    resultStats.played = recordState.filter((character) => character.status === statusNames[1] || character.status === statusNames[2]);
-    resultStats.ratio = (resultStats.won.length / resultStats.played.length).toFixed(2) * 100;
-    if (resultStats.played.length === 0) {
-      setRunResults('It looks like you haven\'t entered any results.')
-    }
-    else if (resultStats.won.length === roster.length) {
-      setRunResults('Seriously?! You did it! Way to go!');
-    }
-    else {
-      setRunResults(`You played ${resultStats.played.length} out of ${resultStats.played.length + resultStats.unplayed.length} characters. You won with ${resultStats.won.length}, and lost with ${resultStats.lost.length}. That's a ${resultStats.ratio}% winrate!`);
+    if (!checkCompletion()) {
+      const confirmFinish = window.confirm('Finish this run?')
+      if (confirmFinish) {
+        setRunComplete(true);
+        let resultStats = {}
+        resultStats.unplayed = recordState.filter((character) => character.status === statusNames[0]);
+        resultStats.won = recordState.filter((character) => character.status === statusNames[1]);
+        resultStats.lost = recordState.filter((character) => character.status === statusNames[2]);
+        resultStats.played = recordState.filter((character) => character.status === statusNames[1] || character.status === statusNames[2]);
+        resultStats.ratio = (resultStats.won.length / resultStats.played.length).toFixed(2) * 100;
+        if (resultStats.played.length === 0) {
+          setRunResults('It looks like you haven\'t entered any results.')
+        }
+        else if (resultStats.won.length === roster.length) {
+          setRunResults('Seriously?! You did it! Way to go!');
+        }
+        else {
+          setRunResults(`You played ${resultStats.played.length} out of ${resultStats.played.length + resultStats.unplayed.length} characters. You won with ${resultStats.won.length}, and lost with ${resultStats.lost.length}. That's a ${resultStats.ratio}% winrate!`);
+        };
+      };
     };
   };
 
-  const clearRun = () => {
-    const clearRun = window.confirm('Clear current run?');
+  const newRun = () => {
+    const confirmNewRun = window.confirm('Clear the current data and begin a new run?');
 
-    if (clearRun) {
+    if (confirmNewRun) {
       let instanceRecord = recordState;
       for (const character of instanceRecord) {
         character.status = statusNames[0];
       };
       localStorage.setItem('stored-run', JSON.stringify(instanceRecord));
       setRecordState(instanceRecord);
-      setRandomChar();
+      setRandomChar({ name: null });
       setRunResults();
+      setRunComplete(false);
       setDummyState(!dummyState);
+    };
+  };
+
+  const checkCompletion = () => {
+    if (runComplete) {
+      window.alert('Run is complete. Please start a new run.');
+      return true;
     };
   };
 
@@ -273,9 +290,20 @@ function App() {
       <div id={'main-wrapper'}>
         <div id={'toolbar'}>
           <div id={'button-container'}>
-            <button onClick={clearRun}>Clear Run Data</button>
+            <button onClick={newRun}>Begin New Run</button>
             <button onClick={randomize}>Random Character</button>
-            <h3 id={'random-area'}>{randomChar}</h3>
+            <div id={'random-area'}>
+              <h3>{randomChar.name}</h3>
+              {
+                randomChar.name
+                  ? <div>
+                    <p className={'random-child'}>Won</p>
+                    <p className={'random-child'}>Lost</p>
+                    <p className={'random-child'}>Skipped</p>
+                  </div>
+                  : null
+              }
+            </div>
           </div>
         </div>
         <div id={'list-wrapper'}>
@@ -284,7 +312,7 @@ function App() {
               Jarvis: The Smash Bros. Ultimate Ironman Assistant!
             </h1>
           </header>
-          <CharList roster={roster} statusNames={statusNames} recordState={recordState} setRecordState={setRecordState} setRandomChar={setRandomChar} setRunResults={setRunResults} saveRun={saveRun} />
+          <CharList roster={roster} statusNames={statusNames} recordState={recordState} setRecordState={setRecordState} randomChar={randomChar} setRandomChar={setRandomChar} setRunResults={setRunResults} runComplete={runComplete} saveRun={saveRun} checkCompletion={checkCompletion} />
           <button id={'finish-button'} onClick={finishRun}>Finish Run!</button>
           <div id={'results-el'}>{runResults}</div>
         </div>
