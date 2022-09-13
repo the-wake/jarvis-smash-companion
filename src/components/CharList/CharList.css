@@ -1,22 +1,27 @@
 #roster-element {
   margin: 20px auto;
-  width: 1440px;
+  max-width: 1440px;
   height: fit-content;
   padding: 4px 0;
-  border-style: solid;
+  background: rgb(225, 225, 143);
+  background: radial-gradient(circle, rgb(225, 225, 143) 0%, rgb(156, 224, 228) 100%);
+  /* background: radial-gradient(circle, rgba(231, 232, 29, 1) 0%, rgba(88, 225, 233, 1) 100%); */
+  /* border-style: solid;
   border-width: 2px;
-  border-color: black;
+  border-color: black; */
 }
 
 .char-image {
   display: inline-block;
-  max-width: 100px;
+  width: 100px;
+  height: 66px;
   padding: 4px;
   margin: 1px;
 }
 
 .unplayed {
   background-color: rgb(230, 230, 230);
+  opacity: 75%;
 }
 
 .won {
@@ -25,4 +30,9 @@
 
 .lost {
   background-color: red;
+}
+
+.highlighted {
+  opacity: 100%;
+  background-color: rgb(212, 0, 255);
 }

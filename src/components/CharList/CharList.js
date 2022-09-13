@@ -1,31 +1,52 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import './CharList.css';
 
-const CharList = ({ roster, statusNames, recordState, setRecordState, setRandomChar }) => {
+const CharList = ({ roster, statusNames, recordState, setRecordState, randomChar, setRandomChar, setRunResults, runComplete, saveRun, checkCompletion }) => {
 
   let localRecord = recordState;
 
   const [dummyState, setDummyState] = useState(true);
 
   const cycleStatus = (e) => {
-    const targetChar = e.target;
-    let statusIndex = statusNames.indexOf(targetChar.classList[1]);
-    targetChar.classList.replace(statusNames[statusIndex], statusNames[statusIndex + 1] || statusNames[0]);
+    if (!checkCompletion()) {
+      const targetChar = e.target;
+      let statusIndex = statusNames.indexOf(targetChar.classList[1]);
+      targetChar.classList.replace(statusNames[statusIndex], statusNames[statusIndex + 1] || statusNames[0]);
 
-    // console.log(targetChar.dataset.id);
-    // console.log(localRecord[targetChar.dataset.id]);
-    localRecord[targetChar.dataset.id].status = statusNames[statusIndex + 1] || statusNames[0];
-    setRecordState(localRecord);
-    setRandomChar();
-    setDummyState(!dummyState);
-    // console.log('Record set via child component.', recordState);
+      // console.log(targetChar.dataset.id);
+      // console.log(localRecord[targetChar.dataset.id]);
+      localRecord[targetChar.dataset.id].status = statusNames[statusIndex + 1] || statusNames[0];
+      setRecordState(localRecord);
+      setRandomChar({ name: null });
+      setRunResults();
+      setDummyState(!dummyState);
+      saveRun();
+    }
   };
 
+  // This can probably be done a lot better... somehow... but I have no idea how to do it.
+  useEffect(() => {
+    const rosterDivs = document.getElementById('roster-element').children;
+    for (const div of rosterDivs) {
+      div.classList.remove('highlighted');
+    }
+    if (randomChar.name !== null) {
+      const targetChar = document.getElementById(randomChar.shortName);
+      targetChar.classList.add('highlighted');
+      // console.log(randomChar);
+      let cooldown = setInterval(() => {
+        clearInterval(cooldown);
+        targetChar.classList.remove('highlighted');
+      }, 1250);
+    };
+  }, [randomChar]);
+
+  // Render
   return (
     <div id={'roster-element'}>
       {roster.map((character, pos) => (
-        <img src={`images/${character.image}`} key={pos} name={character.name} data-id={character.id} alt={`${character.name}`} className={`char-image ${localRecord[character.id].status}`} onClick={cycleStatus} />
+        <img src={`images/${character.image}`} key={pos} id={character.shortName} name={character.name} data-id={character.id} alt={`${character.name}`} className={`char-image ${localRecord[character.id].status}`} onClick={cycleStatus} />
       ))}
     </div>
   );
