@@ -1,40 +1,113 @@
 import './App.css';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import CharList from './components/CharList/CharList.js';
-// const rootElement = document.getElementById("root");
-
-
-// ReactDOM.render() is deprecated as of version 18:
-// Warning: ReactDOM.render is no longer supported in React 18. Use createRoot instead. Until you switch to the new API, your app will behave as if it's running React 17. Learn more: https://reactjs.org/link/switch-to-createroot
 
 
 
-function App({ container }) {
+function App() {
 
-  const roster = [
-    { id: 0, name: 'Mario', shortName: 'mario', image: '1_mario_00.png' },
-    { id: 1, name: 'Donkey Kong', shortName: 'dk', image: '2_donkey_00.png' },
-    { id: 2, name: 'Link', shortName: 'link', image: '3_link_00.png' },
-    { id: 3, name: 'Samus', shortName: 'samus', image: '4_samus_00.png' },
-    { id: 4, name: 'Dark Samus', shortName: 'damus', image: '4c_dsamus_00.png' },
-    { id: 5, name: 'Yoshi', shortName: 'yoshi', image: '5_yoshi_00.png' },
-    { id: 6, name: 'Kirby', shortName: 'kirby', image: '6_kirby_00.png' },
-    { id: 7, name: 'Fox', shortName: 'fox', image: '7_fox_00.png' },
-    { id: 8, name: 'Pikachu', shortName: 'pikachu', image: '8_pikachu_00.png' },
-    { id: 9, name: 'Luigi', shortName: 'luigi', image: '9_luigi_00.png' },
-    { id: 10, name: 'Ness', shortName: 'ness', image: '10_ness_00.png' },
-    { id: 11, name: 'Captain Falcon', shortName: 'falcon', image: '11_falcon_00.png' },
-    { id: 12, name: 'Jigglypuff', shortName: 'jigglypuff', image: '12_jigglypuff_00.png' },
-    { id: 13, name: 'Peach', shortName: 'peach', image: '13_peach_00.png' },
-    { id: 14, name: 'Daisy', shortName: 'deach', image: '13c_daisy_00.png' },
+  let baseRoster = [
+    { id: 0, name: 'Mario', shortName: 'mario' },
+    { id: 1, name: 'Donkey Kong', shortName: 'dk' },
+    { id: 2, name: 'Link', shortName: 'link' },
+    { id: 3, name: 'Samus', shortName: 'samus' },
+    { id: 4, name: 'Dark Samus', shortName: 'damus' },
+    { id: 5, name: 'Yoshi', shortName: 'yoshi' },
+    { id: 6, name: 'Kirby', shortName: 'kirby' },
+    { id: 7, name: 'Fox', shortName: 'fox' },
+    { id: 8, name: 'Pikachu', shortName: 'pikachu' },
+    { id: 9, name: 'Luigi', shortName: 'luigi' },
+    { id: 10, name: 'Ness', shortName: 'ness' },
+    { id: 11, name: 'Captain Falcon', shortName: 'falcon' },
+    { id: 12, name: 'Jigglypuff', shortName: 'jigglypuff' },
+    { id: 13, name: 'Peach', shortName: 'peach' },
+    { id: 14, name: 'Daisy', shortName: 'deach' },
+    { id: 15, name: 'Bowser', shortName: 'bowser' },
+    { id: 16, name: 'Ice Climbers', shortName: 'climbers' },
+    { id: 17, name: 'Sheik', shortName: 'sheik' },
+    { id: 18, name: 'Zelda', shortName: 'zelda' },
+    { id: 19, name: 'Doctor Mario', shortName: 'dario', },
+    { id: 20, name: 'Pichu', shortName: 'pichu', },
+    { id: 21, name: 'Falco', shortName: 'falco' },
+    { id: 22, name: 'Marth', shortName: 'marth' },
+    { id: 23, name: 'Lucina', shortName: 'lucina' },
+    { id: 24, name: 'Young Link', shortName: 'yink' },
+    { id: 25, name: 'Ganon', shortName: 'ganon' },
+    { id: 26, name: 'Mewtwo', shortName: 'mewtwo' },
+    { id: 27, name: 'Roy', shortName: 'roy' },
+    { id: 28, name: 'Chrom', shortName: 'chrom' },
+    { id: 29, name: 'Mr. Game & Watch', shortName: 'gnw' },
+    { id: 30, name: 'Meta Knight', shortName: 'metaknight' },
+    { id: 31, name: 'Pit', shortName: 'pit' },
+    { id: 32, name: 'Dark Pit', shortName: 'darkpit' },
+    { id: 33, name: 'Zero Suit Samus', shortName: 'zss' },
+    { id: 34, name: 'Wario', shortName: 'wario' },
+    { id: 35, name: 'Snake', shortName: 'snake' },
+    { id: 36, name: 'Ike', shortName: 'ike' },
+    { id: 37, name: 'Pokemon Trainer', shortName: 'trainer' },
+    { id: 38, name: 'Diddy Kong', shortName: 'diddy' },
+    { id: 39, name: 'Lucas', shortName: 'lucas' },
+    { id: 40, name: 'Sonic', shortName: 'sonic' },
+    { id: 41, name: 'King Dedede', shortName: 'dedede' },
+    { id: 42, name: 'Olimar', shortName: 'olimar' },
+    { id: 43, name: 'Lucario', shortName: 'lucario' },
+    { id: 44, name: 'ROB', shortName: 'rob' },
+    { id: 45, name: 'Toon Link', shortName: 'tink' },
+    { id: 46, name: 'Wolf', shortName: 'wolf' },
+    { id: 47, name: 'Villager', shortName: 'villager' },
+    { id: 48, name: 'Mega Man', shortName: 'megaman' },
+    { id: 49, name: 'Wii Fit Trainer', shortName: 'wiifit' },
+    { id: 50, name: 'Rosalina & Luma', shortName: 'rosalina' },
+    { id: 51, name: 'Little Mac', shortName: 'littlemac' },
+    { id: 52, name: 'Greninja', shortName: 'greninja' },
+    { id: 53, name: 'Palutena', shortName: 'palutena' },
+    { id: 54, name: 'Pacman', shortName: 'pacman' },
+    { id: 55, name: 'Robin', shortName: 'robin' },
+    { id: 56, name: 'Shulk', shortName: 'shulk' },
+    { id: 57, name: 'Bowser Jr.', shortName: 'bowserjr' },
+    { id: 58, name: 'Duck Hunt', shortName: 'duckhunt' },
+    { id: 59, name: 'Ryu', shortName: 'ryu' },
+    { id: 60, name: 'Ken', shortName: 'ken' },
+    { id: 61, name: 'Cloud', shortName: 'cloud' },
+    { id: 62, name: 'Corrin', shortName: 'corrin' },
+    { id: 63, name: 'Bayonetta', shortName: 'bayonetta' },
+    { id: 64, name: 'Inkling', shortName: 'inkling' },
+    { id: 65, name: 'Ridley', shortName: 'ridley' },
+    { id: 66, name: 'Simon', shortName: 'simon' },
+    { id: 67, name: 'Richter', shortName: 'richter' },
+    { id: 68, name: 'King K. Rool', shortName: 'krool' },
+    { id: 69, name: 'Isabelle', shortName: 'isabelle' },
+    { id: 70, name: 'Incineroar', shortName: 'incineroar' },
+    { id: 71, name: 'Piranha Plant', shortName: 'plant' },
+    { id: 72, name: 'Joker', shortName: 'joker' },
+    { id: 73, name: 'Hero', shortName: 'hero' },
+    { id: 74, name: 'Banjo & Kazooie', shortName: 'banjokazooie' },
+    { id: 75, name: 'Terry', shortName: 'terry' },
+    { id: 76, name: 'Byleth', shortName: 'byleth' },
+    { id: 77, name: 'Min Min', shortName: 'minmin' },
+    { id: 78, name: 'Steve', shortName: 'steve' },
+    { id: 79, name: 'Sephiroth', shortName: 'sephiroth' },
+    { id: 80, name: 'Aegis', shortName: 'aegis' },
+    { id: 81, name: 'Kazuya', shortName: 'kazuya' },
+    { id: 82, name: 'Sora', shortName: 'sora' },
+    { id: 83, name: 'Mii Brawler', shortName: 'brawler' },
+    { id: 84, name: 'Mii Swordfighter', shortName: 'swordfighter' },
+    { id: 85, name: 'Mii Gunner', shortName: 'gunner' },
   ];
+
+  for (var character of baseRoster) {
+    const rosterNum = character.id + 1
+    character.image = `${rosterNum}_${character.shortName}_00.png`;
+  };
+
+  const roster = baseRoster;
 
   const statusNames = ['unplayed', 'won', 'lost',];
 
   // Can probably just make this a constant that stores default statuses to seed the initial data. Should be using state to track changes rather than a variable anyway.
-  let localRecord = [
+  let initialRecord = [
     { name: 'Mario', status: statusNames[0] },
     { name: 'Donkey Kong', status: statusNames[0] },
     { name: 'Link', status: statusNames[0] },
@@ -50,43 +123,113 @@ function App({ container }) {
     { name: 'Jigglypuff', status: statusNames[0] },
     { name: 'Peach', status: statusNames[0] },
     { name: 'Daisy', status: statusNames[0] },
+    { name: 'Bowser', status: statusNames[0] },
+    { name: 'Ice Climbers', status: statusNames[0] },
+    { name: 'Sheik', status: statusNames[0] },
+    { name: 'Zelda', status: statusNames[0] },
+    { name: 'Doctor Mario', status: statusNames[0] },
+    { name: 'Pichu', status: statusNames[0] },
+    { name: 'Falco', status: statusNames[0] },
+    { name: 'Marth', status: statusNames[0] },
+    { name: 'Lucina', status: statusNames[0] },
+    { name: 'Young Link', status: statusNames[0] },
+    { name: 'Ganon', status: statusNames[0] },
+    { name: 'Mewtwo', status: statusNames[0] },
+    { name: 'Roy', status: statusNames[0] },
+    { name: 'Chrom', status: statusNames[0] },
+    { name: 'Mr. Game & Watch', status: statusNames[0] },
+    { name: 'Meta Knight', status: statusNames[0] },
+    { name: 'Pit', status: statusNames[0] },
+    { name: 'Dark Pit', status: statusNames[0] },
+    { name: 'Zero Suit Samus', status: statusNames[0] },
+    { name: 'Wario', status: statusNames[0] },
+    { name: 'Snake', status: statusNames[0] },
+    { name: 'Ike', status: statusNames[0] },
+    { name: 'Pokemon Trainer', status: statusNames[0] },
+    { name: 'Diddy Kong', status: statusNames[0] },
+    { name: 'Lucas', status: statusNames[0] },
+    { name: 'Sonic', status: statusNames[0] },
+    { name: 'King Dedede', status: statusNames[0] },
+    { name: 'Olimar', status: statusNames[0] },
+    { name: 'Lucario', status: statusNames[0] },
+    { name: 'ROB', status: statusNames[0] },
+    { name: 'Toon Link', status: statusNames[0] },
+    { name: 'Wolf', status: statusNames[0] },
+    { name: 'Villager', status: statusNames[0] },
+    { name: 'Mega Man', status: statusNames[0] },
+    { name: 'Wii Fit Trainer', status: statusNames[0] },
+    { name: 'Rosalina & Luma', status: statusNames[0] },
+    { name: 'Little Mac', status: statusNames[0] },
+    { name: 'Greninja', status: statusNames[0] },
+    { name: 'Palutena', status: statusNames[0] },
+    { name: 'Pac-Man', status: statusNames[0] },
+    { name: 'Robin', status: statusNames[0] },
+    { name: 'Shulk', status: statusNames[0] },
+    { name: 'Bowser Jr.', status: statusNames[0] },
+    { name: 'Duck Hunt', status: statusNames[0] },
+    { name: 'Ryu', status: statusNames[0] },
+    { name: 'Ken', status: statusNames[0] },
+    { name: 'Cloud', status: statusNames[0] },
+    { name: 'Corrin', status: statusNames[0] },
+    { name: 'Bayonetta', status: statusNames[0] },
+    { name: 'Inkling', status: statusNames[0] },
+    { name: 'Ridley', status: statusNames[0] },
+    { name: 'Simon', status: statusNames[0] },
+    { name: 'Richter', status: statusNames[0] },
+    { name: 'King K. Rool', status: statusNames[0] },
+    { name: 'Isabelle', status: statusNames[0] },
+    { name: 'Incineroar', status: statusNames[0] },
+    { name: 'Piranha Plant', status: statusNames[0] },
+    { name: 'Joker', status: statusNames[0] },
+    { name: 'Hero', status: statusNames[0] },
+    { name: 'Banjo & Kazooie', status: statusNames[0] },
+    { name: 'Terry', status: statusNames[0] },
+    { name: 'Byleth', status: statusNames[0] },
+    { name: 'Min Min', status: statusNames[0] },
+    { name: 'Steve', status: statusNames[0] },
+    { name: 'Sephiroth', status: statusNames[0] },
+    { name: 'Aegis', status: statusNames[0] },
+    { name: 'Kazuya', status: statusNames[0] },
+    { name: 'Sora', status: statusNames[0] },
+    { name: 'Mii Brawler', status: statusNames[0] },
+    { name: 'Mii Swordfighter', status: statusNames[0] },
+    { name: 'Mii Gunner', status: statusNames[0] },
   ];
 
-  // Update recordState to reflect localStorage, if it exists.
-  const storedRun = JSON.parse(localStorage.getItem('stored-run')) || localRecord;
+  // Initailize the current run as the local storage if it exists, or as initialRecord if not.
+  const storedRun = JSON.parse(localStorage.getItem('stored-run')) || initialRecord;
 
-  // Create a temporary variable to store data from the loop, then use it to run setRecordState.
-
-  let loadedInstance = localRecord;
+  // Create a temporary variable to store data from the loop, then use it to initialize the recordState.
+  let loadedInstance = initialRecord;
   for (var i = 0; i < storedRun.length; i++) {
     loadedInstance[i].status = storedRun[i].status || 'unplayed';
   };
 
   const [recordState, setRecordState] = useState(loadedInstance);
+  const [randomChar, setRandomChar] = useState();
   const [dummyState, setDummyState] = useState(true);
 
   const randomize = () => {
-    const charPool = [];
+    let charPool = [];
 
     for (const character of roster) {
       if (recordState[character.id].status === 'unplayed') {
         charPool.push(character)
-        // console.log(`Pushed ${character.name}`)
       }
     }
     console.log(charPool);
 
     if (charPool.length === 0) {
-      document.getElementById('char-area').innerHTML = 'Finished!';
+      setRandomChar('Finished!');
     }
     else {
       let rand = Math.floor(Math.random() * charPool.length);
-      document.getElementById('char-area').innerHTML = charPool[rand].name;
+      setRandomChar(charPool[rand].name);
     }
   };
 
   const saveRun = () => {
-    localStorage.setItem('stored-run', JSON.stringify(localRecord));
+    localStorage.setItem('stored-run', JSON.stringify(initialRecord));
     console.log('Run saved locally');
   };
 
@@ -100,11 +243,12 @@ function App({ container }) {
       };
       localStorage.setItem('stored-run', JSON.stringify(instanceRecord));
       setRecordState(instanceRecord);
+      setRandomChar();
       setDummyState(!dummyState);
     };
   };
 
-  // Could add a filter here eventually to combine characters with their clones.
+  // Could add a filter to combine characters with their clones.
 
   return (
     <div className="App">
@@ -113,48 +257,19 @@ function App({ container }) {
           Jarvis: The Smash Bros. Ultimate Ironman Assistant!
         </h1>
       </header>
-      <div id={'list-area'}>
-        <CharList roster={roster} statusNames={statusNames} recordState={recordState} setRecordState={setRecordState} />
+      <div id={'main-wrapper'}>
+        <div id={'toolbar'}>
+          <div id={'button-container'}>
+            <button onClick={saveRun}>Save Run Data</button>
+            <button onClick={clearRun}>Clear Run Data</button>
+            <button onClick={randomize}>Random Character</button>
+            <h3 id={'random-area'}>{randomChar}</h3>
+          </div>
+        </div>
+        <CharList roster={roster} statusNames={statusNames} recordState={recordState} setRecordState={setRecordState} setRandomChar={setRandomChar} />
       </div>
-      <div id={'button-container'}>
-        <button onClick={randomize}>Random Character</button>
-        <button onClick={saveRun}>Save Run Data</button>
-        <button onClick={clearRun}>Clear Run Data</button>
-      </div>
-      <h3 id={'char-area'}> </h3>
     </div>
   );
 };
 
 export default App;
-
-
-
-// Root hydration version (which can't pass classes properly).
-  // const loadRun = () => {
-  //   const storedRun = JSON.parse(localStorage.getItem('stored-run'));
-
-  //   if (!storedRun) {
-  //     window.alert('You have no saved run.');
-  //   } else {
-  //     const confirm = window.confirm('Would you like to load your last run data?');
-  //     if (confirm) {
-  //       // console.log(storedRun);
-  //       storedRun.map((character, pos) => {
-  //         // console.log(`${roster[pos].name}: ${character.status}`);
-  //         localRecord[pos].status = character.status;
-  //         return character.status;
-  //       });
-  //       updateRecordState({ ...localRecord });
-  //       const container = document.getElementById('list-area');
-  //       const root = hydrateRoot(container, <CharList roster={roster} statusNames={statusNames} localRecord={localRecord} state={localRecord} />);
-  //       // ReactDOM.render(<App />, rootElement);
-  //       // root.render(CharList);
-  //       // Also have to update the random status.
-  //     };
-  //   };
-  // };
-
-  // useEffect(() => {
-  //   console.log(recordState);
-  // }, [recordState]);

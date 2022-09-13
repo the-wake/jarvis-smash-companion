@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 import './CharList.css';
 
-const CharList = ({ roster, statusNames, recordState, setRecordState }) => {
+const CharList = ({ roster, statusNames, recordState, setRecordState, setRandomChar }) => {
 
   let localRecord = recordState;
 
@@ -17,8 +17,9 @@ const CharList = ({ roster, statusNames, recordState, setRecordState }) => {
     // console.log(localRecord[targetChar.dataset.id]);
     localRecord[targetChar.dataset.id].status = statusNames[statusIndex + 1] || statusNames[0];
     setRecordState(localRecord);
-    console.log('Record set via child component.', recordState);
+    setRandomChar();
     setDummyState(!dummyState);
+    // console.log('Record set via child component.', recordState);
   };
 
   return (
