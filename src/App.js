@@ -238,7 +238,7 @@ function App() {
     resultStats.won = recordState.filter((character) => character.status === statusNames[1]);
     resultStats.lost = recordState.filter((character) => character.status === statusNames[2]);
     resultStats.played = recordState.filter((character) => character.status === statusNames[1] || character.status === statusNames[2]);
-    console.log(resultStats);
+    resultStats.ratio = (resultStats.won.length / resultStats.played.length).toFixed(2) * 100;
     if (resultStats.played.length === 0) {
       setRunResults('It looks like you haven\'t entered any results.')
     }
@@ -246,7 +246,7 @@ function App() {
       setRunResults('Seriously?! You did it! Way to go!');
     }
     else {
-      setRunResults(`You played a total of ${resultStats.won.length + resultStats.lost.length} characters out of ${resultStats.played.length + resultStats.unplayed.length} characters. You won with ${resultStats.won.length}, and lost with ${resultStats.lost.length}.`);
+      setRunResults(`You played ${resultStats.played.length} out of ${resultStats.played.length + resultStats.unplayed.length} characters. You won with ${resultStats.won.length}, and lost with ${resultStats.lost.length}. That's a ${resultStats.ratio}% winrate!`);
     };
   };
 
@@ -270,11 +270,6 @@ function App() {
 
   return (
     <div className="App">
-      <header>
-        <h1>
-          Jarvis: The Smash Bros. Ultimate Ironman Assistant!
-        </h1>
-      </header>
       <div id={'main-wrapper'}>
         <div id={'toolbar'}>
           <div id={'button-container'}>
@@ -284,6 +279,11 @@ function App() {
           </div>
         </div>
         <div id={'list-wrapper'}>
+          <header>
+            <h1>
+              Jarvis: The Smash Bros. Ultimate Ironman Assistant!
+            </h1>
+          </header>
           <CharList roster={roster} statusNames={statusNames} recordState={recordState} setRecordState={setRecordState} setRandomChar={setRandomChar} setRunResults={setRunResults} saveRun={saveRun} />
           <button id={'finish-button'} onClick={finishRun}>Finish Run!</button>
           <div id={'results-el'}>{runResults}</div>
