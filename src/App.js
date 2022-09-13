@@ -107,7 +107,7 @@ function App() {
   const statusNames = ['unplayed', 'won', 'lost',];
 
   // Can probably just make this a constant that stores default statuses to seed the initial data. Should be using state to track changes rather than a variable anyway.
-  let initialRecord = [
+  const initialRecord = [
     { name: 'Mario', status: statusNames[0] },
     { name: 'Donkey Kong', status: statusNames[0] },
     { name: 'Link', status: statusNames[0] },
@@ -217,7 +217,6 @@ function App() {
         charPool.push(character)
       }
     }
-    console.log(charPool);
 
     if (charPool.length === 0) {
       setRandomChar('Finished!');
@@ -229,8 +228,7 @@ function App() {
   };
 
   const saveRun = () => {
-    localStorage.setItem('stored-run', JSON.stringify(initialRecord));
-    console.log('Run saved locally');
+    localStorage.setItem('stored-run', JSON.stringify(recordState));
   };
 
   const clearRun = () => {
@@ -260,13 +258,13 @@ function App() {
       <div id={'main-wrapper'}>
         <div id={'toolbar'}>
           <div id={'button-container'}>
-            <button onClick={saveRun}>Save Run Data</button>
+            {/* <button onClick={saveRun}>Save Run Data</button> */}
             <button onClick={clearRun}>Clear Run Data</button>
             <button onClick={randomize}>Random Character</button>
             <h3 id={'random-area'}>{randomChar}</h3>
           </div>
         </div>
-        <CharList roster={roster} statusNames={statusNames} recordState={recordState} setRecordState={setRecordState} setRandomChar={setRandomChar} />
+        <CharList roster={roster} statusNames={statusNames} recordState={recordState} setRecordState={setRecordState} setRandomChar={setRandomChar} saveRun={saveRun} />
       </div>
     </div>
   );

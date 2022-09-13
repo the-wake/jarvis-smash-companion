@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import './CharList.css';
 
-const CharList = ({ roster, statusNames, recordState, setRecordState, setRandomChar }) => {
+const CharList = ({ roster, statusNames, recordState, setRecordState, setRandomChar, saveRun }) => {
 
   let localRecord = recordState;
 
@@ -19,7 +19,7 @@ const CharList = ({ roster, statusNames, recordState, setRecordState, setRandomC
     setRecordState(localRecord);
     setRandomChar();
     setDummyState(!dummyState);
-    // console.log('Record set via child component.', recordState);
+    saveRun();
   };
 
   return (
