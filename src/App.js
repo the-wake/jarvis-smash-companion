@@ -296,16 +296,19 @@ function App() {
     };
   };
 
+  // Used to have more functionality here, but I think this is fine.
+  // TODO: Could pass the event target here and cause the triggering click to go through.
   const checkCompletion = () => {
     if (runComplete) {
-      window.alert('Run is complete. Please start a new run.');
+      newRun();
       return true;
     };
   };
 
   useEffect(() => {
-    saveRun();
-  }, recordState);
+    // This should just run saveRun(), but it gives a dependency warning when I run it that way.
+    localStorage.setItem('stored-run', JSON.stringify(recordState));
+  }, [recordState]);
 
   // Could add a filter to combine characters with their clones.
 

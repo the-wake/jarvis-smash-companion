@@ -75,6 +75,11 @@ button {
   border-radius: 10px; */
 }
 
+.random-child {
+  color: #0000FF;
+  font-weight: bold;
+}
+
 #random-area h3 {
   margin: 12px 0 6px 0;
 }
