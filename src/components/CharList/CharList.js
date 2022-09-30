@@ -46,7 +46,7 @@ const CharList = ({ roster, statusNames, recordState, setRecordState, randomChar
   return (
     <div id={'roster-element'}>
       {roster.map((character, pos) => (
-        <img src={`images/${character.image}`} key={pos} id={character.shortName} name={character.name} data-id={character.id} alt={`${character.name}`} className={`char-image ${localRecord[character.id].status}`} onClick={cycleStatus} />
+        <img src={`${process.env.PUBLIC_URL}/images/${character.image}`} key={pos} id={character.shortName} name={character.name} data-id={character.id} alt={`${character.name}`} className={`char-image ${localRecord[character.id].status}`} onClick={cycleStatus} />
       ))}
     </div>
   );
