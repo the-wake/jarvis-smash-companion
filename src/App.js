@@ -296,9 +296,11 @@ function App() {
     };
   };
 
+  // Used to have more functionality here, but I think this is fine.
+  // TODO: Could pass the event target here and cause the triggering click to go through.
   const checkCompletion = () => {
     if (runComplete) {
-      window.alert('Run is complete. Please start a new run.');
+      newRun();
       return true;
     };
   };
