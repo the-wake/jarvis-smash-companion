@@ -304,8 +304,9 @@ function App() {
   };
 
   useEffect(() => {
-    saveRun();
-  }, recordState);
+    // This should just run saveRun(), but it gives a dependency warning when I run it that way.
+    localStorage.setItem('stored-run', JSON.stringify(recordState));
+  }, [recordState]);
 
   // Could add a filter to combine characters with their clones.
 
