@@ -3,8 +3,8 @@
   max-width: 1440px;
   height: fit-content;
   padding: 4px 0;
-  background: rgb(225, 225, 143);
-  background: radial-gradient(circle, rgb(225, 225, 143) 0%, rgb(156, 224, 228) 100%);
+  background: rgb(88,225,233);
+  background: radial-gradient(circle, rgba(88,225,233,1) 0%, rgba(111,226,200,1) 4%, rgb(232, 232, 116) 50%, rgba(111,226,200,1) 96%, rgba(88,225,233,1) 100%);
   /* background: radial-gradient(circle, rgba(231, 232, 29, 1) 0%, rgba(88, 225, 233, 1) 100%); */
   /* border-style: solid;
   border-width: 2px;

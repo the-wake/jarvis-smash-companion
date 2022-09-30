@@ -14,11 +14,9 @@ const CharList = ({ roster, statusNames, recordState, setRecordState, randomChar
       let statusIndex = statusNames.indexOf(targetChar.classList[1]);
       targetChar.classList.replace(statusNames[statusIndex], statusNames[statusIndex + 1] || statusNames[0]);
 
-      // console.log(targetChar.dataset.id);
-      // console.log(localRecord[targetChar.dataset.id]);
       localRecord[targetChar.dataset.id].status = statusNames[statusIndex + 1] || statusNames[0];
       setRecordState(localRecord);
-      setRandomChar({ name: null });
+      setRandomChar(null);
       setRunResults();
       setDummyState(!dummyState);
       saveRun();
@@ -31,10 +29,9 @@ const CharList = ({ roster, statusNames, recordState, setRecordState, randomChar
     for (const div of rosterDivs) {
       div.classList.remove('highlighted');
     }
-    if (randomChar.name !== null) {
+    if (randomChar !== null) {
       const targetChar = document.getElementById(randomChar.shortName);
       targetChar.classList.add('highlighted');
-      // console.log(randomChar);
       let cooldown = setInterval(() => {
         clearInterval(cooldown);
         targetChar.classList.remove('highlighted');
