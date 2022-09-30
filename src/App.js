@@ -209,8 +209,8 @@ function App() {
   const [runResults, setRunResults] = useState();
   const [runComplete, setRunComplete] = useState(false);
   const [dummyState, setDummyState] = useState(true);
-  // const [freshState, setFreshState] = useState(true);
-  console.log(recordState);
+  
+  // console.log(recordState);
 
   const randomize = () => {
     if (!checkCompletion()) {
@@ -248,7 +248,6 @@ function App() {
     console.log(newStatus);
     console.log(newStatus[charIndex]);
     setRandomChar({ name: null });
-    // TODO: run setRecordState.
     setRecordState(newStatus);
   };
 
