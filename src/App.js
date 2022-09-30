@@ -4,8 +4,6 @@ import React, { useState } from 'react';
 
 import CharList from './components/CharList/CharList.js';
 
-
-
 function App() {
 
   let baseRoster = [
@@ -200,7 +198,8 @@ function App() {
   const storedRun = JSON.parse(localStorage.getItem('stored-run')) || initialRecord;
 
   // Create a temporary variable to store data from the loop, then use it to initialize the recordState.
-  let loadedInstance = initialRecord;
+  // You need to stringify and parse the initial reference in React to set up a deep clone; otherwise the equivalence will create a reference instead of a copy.
+  let loadedInstance = JSON.parse(JSON.stringify(initialRecord));
   for (var i = 0; i < storedRun.length; i++) {
     loadedInstance[i].status = storedRun[i].status || 'unplayed';
   };
@@ -210,6 +209,7 @@ function App() {
   const [runResults, setRunResults] = useState();
   const [runComplete, setRunComplete] = useState(false);
   const [dummyState, setDummyState] = useState(true);
+  // const [freshState, setFreshState] = useState(true);
 
   const randomize = () => {
     if (!checkCompletion()) {
@@ -313,7 +313,11 @@ function App() {
             </h1>
           </header>
           <CharList roster={roster} statusNames={statusNames} recordState={recordState} setRecordState={setRecordState} randomChar={randomChar} setRandomChar={setRandomChar} setRunResults={setRunResults} runComplete={runComplete} saveRun={saveRun} checkCompletion={checkCompletion} />
-          <button id={'finish-button'} onClick={finishRun}>Finish Run!</button>
+          {
+            JSON.stringify(recordState) !== JSON.stringify(initialRecord)
+            ? <button id={'finish-button'} onClick={finishRun}>Finish Run!</button>
+            : <button id={'finish-button'} disabled={true}>Finish Run!</button>
+          }
           <div id={'results-el'}>{runResults}</div>
         </div>
       </div>

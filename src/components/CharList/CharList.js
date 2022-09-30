@@ -25,7 +25,7 @@ const CharList = ({ roster, statusNames, recordState, setRecordState, randomChar
     }
   };
 
-  // This can probably be done a lot better... somehow... but I have no idea how to do it.
+  // This can probably be done a lot better... somehow...
   useEffect(() => {
     const rosterDivs = document.getElementById('roster-element').children;
     for (const div of rosterDivs) {
