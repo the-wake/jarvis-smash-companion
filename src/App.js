@@ -205,11 +205,11 @@ function App() {
   };
 
   const [recordState, setRecordState] = useState(loadedInstance);
-  const [randomChar, setRandomChar] = useState({ name: null });
+  const [randomChar, setRandomChar] = useState(null);
   const [runResults, setRunResults] = useState();
   const [runComplete, setRunComplete] = useState(false);
   const [dummyState, setDummyState] = useState(true);
-  
+
   // console.log(recordState);
 
   const randomize = () => {
@@ -223,11 +223,12 @@ function App() {
       }
 
       if (charPool.length === 0) {
-        setRandomChar({ name: 'Finished!' });
+        setRandomChar(null);
+        window.alert('Finished!')
       }
       else {
-        let rand = Math.floor(Math.random() * charPool.length);
-        setRandomChar(charPool[rand]);
+        let rdm = Math.floor(Math.random() * charPool.length);
+        setRandomChar(charPool[rdm]);
       }
     }
   };
@@ -235,21 +236,21 @@ function App() {
   const doRandom = e => {
     console.log(e.target);
 
-    if (e.target.id === 'random-skipped') {
-      console.log(`Skipped ${randomChar.name}.`);
-      setRandomChar({ name: null });
+    if (e.target.id === 'random-skip') {
+      randomize();
       return;
     }
 
     const result = e.target.id.split('-')[1];
-    let charIndex = randomChar.id;
     let charName = randomChar.name;
-    const newStatus = recordState.map(char => char.name === charName ? { ...char, status: result } : char );
-    console.log(newStatus);
-    console.log(newStatus[charIndex]);
-    setRandomChar({ name: null });
+    const newStatus = recordState.map(char => char.name === charName ? { ...char, status: result } : char);
     setRecordState(newStatus);
+    randomize();
   };
+
+  const clearRandom = () => {
+    setRandomChar(null);
+  }
 
   const saveRun = () => {
     localStorage.setItem('stored-run', JSON.stringify(recordState));
@@ -289,7 +290,7 @@ function App() {
       };
       localStorage.setItem('stored-run', JSON.stringify(instanceRecord));
       setRecordState(instanceRecord);
-      setRandomChar({ name: null });
+      setRandomChar(null);
       setRunResults();
       setRunComplete(false);
       setDummyState(!dummyState);
@@ -314,42 +315,94 @@ function App() {
 
   return (
     <div className="App">
-      <div id={'main-wrapper'}>
-        <div id={'toolbar'}>
-          <div id={'button-container'}>
-            <button onClick={newRun}>Begin New Run</button>
-            <button onClick={randomize}>Random Character</button>
-            <div id={'random-area'}>
-              <h3>{randomChar.name}</h3>
-              {
-                randomChar.name
-                  ? <div>
-                    <p className={'random-child'} id={`random-${statusNames[1]}`} onClick={doRandom}>Won</p>
-                    <p className={'random-child'} id={`random-${statusNames[2]}`} onClick={doRandom}>Lost</p>
-                    <p className={'random-child'} id={'random-skipped'} onClick={doRandom}>Skipped</p>
-                  </div>
-                  : null
-              }
-            </div>
-          </div>
-        </div>
-        <div id={'list-wrapper'}>
-          <header>
-            <h1>
-              Jarvis: The Smash Bros. Ultimate Ironman Assistant!
-            </h1>
-          </header>
-          <CharList roster={roster} statusNames={statusNames} recordState={recordState} setRecordState={setRecordState} randomChar={randomChar} setRandomChar={setRandomChar} setRunResults={setRunResults} runComplete={runComplete} saveRun={saveRun} checkCompletion={checkCompletion} />
+      <div id={'list-wrapper'}>
+        <header>
+          <h1>
+            Jarvis: The Smash Bros. Ultimate Ironman Assistant!
+          </h1>
+        </header>
+        <CharList roster={roster} statusNames={statusNames} recordState={recordState} setRecordState={setRecordState} randomChar={randomChar} setRandomChar={setRandomChar} setRunResults={setRunResults} runComplete={runComplete} saveRun={saveRun} checkCompletion={checkCompletion} />
+      </div>
+      <div id={'dashboard'}>
+        <div id={'dashboard-left'}>
           {
             JSON.stringify(recordState) !== JSON.stringify(initialRecord)
               ? <button id={'finish-button'} onClick={finishRun}>Finish Run!</button>
               : <button id={'finish-button'} disabled={true}>Finish Run!</button>
           }
-          <div id={'results-el'}>{runResults}</div>
+          <button onClick={newRun}>Begin New Run</button>
+        </div>
+        <div id={'dashboard-right'}>
+          {/* {
+            randomChar !== null ? <h3 id={'random-name'}>{randomChar.name}</h3> : null
+          } */}
+          <div className={'justify-center'}>
+            {
+              randomChar !== null
+                ? <img src={`${process.env.PUBLIC_URL}/images/${randomChar.image}`} alt={randomChar.name} className={'char-image'}></img>
+                : <button onClick={randomize}>Random Character</button>
+            }
+          </div>
+          <div>
+            {
+              randomChar !== null
+                ? <div id={'random-commands'}>
+                  <p className={'random-child'} id={`random-${statusNames[1]}`} onClick={doRandom}>Won</p>
+                  <p className={'random-child'} id={`random-${statusNames[2]}`} onClick={doRandom}>Lost</p>
+                  <p className={'random-child'} id={'random-skip'} onClick={doRandom}>Skip</p>
+                  <p className={'random-child'} id={'random-clear'} onClick={clearRandom}>Clear</p>
+                </div>
+                : null
+            }
+          </div>
         </div>
       </div>
+      <p id={'results-el'}>{runResults}</p>
     </div>
   );
 };
 
 export default App;
+
+
+
+// Two-column view
+// return (
+//   <div className="App">
+//     <div id={'main-wrapper'}>
+//       <div id={'toolbar'}>
+//         <div id={'button-container'}>
+//           <button onClick={newRun}>Begin New Run</button>
+//           <button onClick={randomize}>Random Character</button>
+//           <div id={'random-area'}>
+//             <h3>{randomChar.name}</h3>
+//             {
+//               randomChar.name
+//                 ? <div>
+//                   <p className={'random-child'} id={`random-${statusNames[1]}`} onClick={doRandom}>Won</p>
+//                   <p className={'random-child'} id={`random-${statusNames[2]}`} onClick={doRandom}>Lost</p>
+//                   <p className={'random-child'} id={'random-skipped'} onClick={doRandom}>Skipped</p>
+//                 </div>
+//                 : null
+//             }
+//           </div>
+//         </div>
+//       </div>
+//       <div id={'list-wrapper'}>
+//         <header>
+//           <h1>
+//             Jarvis: The Smash Bros. Ultimate Ironman Assistant!
+//           </h1>
+//         </header>
+//         <CharList roster={roster} statusNames={statusNames} recordState={recordState} setRecordState={setRecordState} randomChar={randomChar} setRandomChar={setRandomChar} setRunResults={setRunResults} runComplete={runComplete} saveRun={saveRun} checkCompletion={checkCompletion} />
+//         {
+//           JSON.stringify(recordState) !== JSON.stringify(initialRecord)
+//             ? <button id={'finish-button'} onClick={finishRun}>Finish Run!</button>
+//             : <button id={'finish-button'} disabled={true}>Finish Run!</button>
+//         }
+//         <div id={'results-el'}>{runResults}</div>
+//       </div>
+//     </div>
+//   </div>
+// );
+// };
