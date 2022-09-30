@@ -1,10 +1,8 @@
 import './App.css';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import CharList from './components/CharList/CharList.js';
-
-
 
 function App() {
 
@@ -200,7 +198,8 @@ function App() {
   const storedRun = JSON.parse(localStorage.getItem('stored-run')) || initialRecord;
 
   // Create a temporary variable to store data from the loop, then use it to initialize the recordState.
-  let loadedInstance = initialRecord;
+  // You need to stringify and parse the initial reference in React to set up a deep clone; otherwise the equivalence will create a reference instead of a copy.
+  let loadedInstance = JSON.parse(JSON.stringify(initialRecord));
   for (var i = 0; i < storedRun.length; i++) {
     loadedInstance[i].status = storedRun[i].status || 'unplayed';
   };
@@ -210,6 +209,8 @@ function App() {
   const [runResults, setRunResults] = useState();
   const [runComplete, setRunComplete] = useState(false);
   const [dummyState, setDummyState] = useState(true);
+  
+  // console.log(recordState);
 
   const randomize = () => {
     if (!checkCompletion()) {
@@ -229,6 +230,25 @@ function App() {
         setRandomChar(charPool[rand]);
       }
     }
+  };
+
+  const doRandom = e => {
+    console.log(e.target);
+
+    if (e.target.id === 'random-skipped') {
+      console.log(`Skipped ${randomChar.name}.`);
+      setRandomChar({ name: null });
+      return;
+    }
+
+    const result = e.target.id.split('-')[1];
+    let charIndex = randomChar.id;
+    let charName = randomChar.name;
+    const newStatus = recordState.map(char => char.name === charName ? { ...char, status: result } : char );
+    console.log(newStatus);
+    console.log(newStatus[charIndex]);
+    setRandomChar({ name: null });
+    setRecordState(newStatus);
   };
 
   const saveRun = () => {
@@ -283,6 +303,10 @@ function App() {
     };
   };
 
+  useEffect(() => {
+    saveRun();
+  }, recordState);
+
   // Could add a filter to combine characters with their clones.
 
   return (
@@ -297,9 +321,9 @@ function App() {
               {
                 randomChar.name
                   ? <div>
-                    <p className={'random-child'}>Won</p>
-                    <p className={'random-child'}>Lost</p>
-                    <p className={'random-child'}>Skipped</p>
+                    <p className={'random-child'} id={`random-${statusNames[1]}`} onClick={doRandom}>Won</p>
+                    <p className={'random-child'} id={`random-${statusNames[2]}`} onClick={doRandom}>Lost</p>
+                    <p className={'random-child'} id={'random-skipped'} onClick={doRandom}>Skipped</p>
                   </div>
                   : null
               }
@@ -313,7 +337,11 @@ function App() {
             </h1>
           </header>
           <CharList roster={roster} statusNames={statusNames} recordState={recordState} setRecordState={setRecordState} randomChar={randomChar} setRandomChar={setRandomChar} setRunResults={setRunResults} runComplete={runComplete} saveRun={saveRun} checkCompletion={checkCompletion} />
-          <button id={'finish-button'} onClick={finishRun}>Finish Run!</button>
+          {
+            JSON.stringify(recordState) !== JSON.stringify(initialRecord)
+              ? <button id={'finish-button'} onClick={finishRun}>Finish Run!</button>
+              : <button id={'finish-button'} disabled={true}>Finish Run!</button>
+          }
           <div id={'results-el'}>{runResults}</div>
         </div>
       </div>
