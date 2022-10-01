@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/jarvis-smash-companion/static/css/main.e4e82b03.css",
-    "main.js": "/jarvis-smash-companion/static/js/main.011ba59d.js",
+    "main.css": "/jarvis-smash-companion/static/css/main.d51019ac.css",
+    "main.js": "/jarvis-smash-companion/static/js/main.6bb51040.js",
     "static/js/787.c90da3a7.chunk.js": "/jarvis-smash-companion/static/js/787.c90da3a7.chunk.js",
     "index.html": "/jarvis-smash-companion/index.html",
-    "main.e4e82b03.css.map": "/jarvis-smash-companion/static/css/main.e4e82b03.css.map",
-    "main.011ba59d.js.map": "/jarvis-smash-companion/static/js/main.011ba59d.js.map",
+    "main.d51019ac.css.map": "/jarvis-smash-companion/static/css/main.d51019ac.css.map",
+    "main.6bb51040.js.map": "/jarvis-smash-companion/static/js/main.6bb51040.js.map",
     "787.c90da3a7.chunk.js.map": "/jarvis-smash-companion/static/js/787.c90da3a7.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.e4e82b03.css",
-    "static/js/main.011ba59d.js"
+    "static/css/main.d51019ac.css",
+    "static/js/main.6bb51040.js"
   ]
 }
