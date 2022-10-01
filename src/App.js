@@ -339,7 +339,7 @@ function App() {
           <div className={'justify-center'}>
             {
               randomChar !== null
-                ? <img src={`${process.env.PUBLIC_URL}/images/${randomChar.image}`} alt={randomChar.name} className={'char-image'}></img>
+                ? <img src={`${process.env.PUBLIC_URL}/images/${randomChar.image}`} alt={randomChar.name} className={'random-image'}></img>
                 : <button onClick={randomize}>Random Character</button>
             }
           </div>
