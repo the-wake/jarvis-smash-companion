@@ -234,8 +234,6 @@ function App() {
   };
 
   const doRandom = e => {
-    console.log(e.target);
-
     if (e.target.id === 'random-skip') {
       randomize();
       return;
@@ -267,6 +265,20 @@ function App() {
         resultStats.lost = recordState.filter((character) => character.status === statusNames[2]);
         resultStats.played = recordState.filter((character) => character.status === statusNames[1] || character.status === statusNames[2]);
         resultStats.ratio = (resultStats.won.length / resultStats.played.length).toFixed(2) * 100;
+        const resultsTone = () => {
+          if (resultStats.ratio === 0) {
+            return 'Must have hit a bracket demon.'
+          } else if (resultStats.played.length <= 2 && resultStats.lost.length < 1) {
+            return 'Maybe try a few more next time.';
+          } else if (resultStats.played.length <= 6 && resultStats.lost.length < 1) {
+            return 'Next time, let\'s go all the way!';
+          } else if (resultStats.ratio < 50) {
+            return 'Hopefully you\'ll have better luck next time.';
+          }
+          else {
+            return `That's a ${resultStats.ratio}% winrate!`;
+          }
+        };
         if (resultStats.played.length === 0) {
           setRunResults('It looks like you haven\'t entered any results.')
         }
@@ -274,7 +286,7 @@ function App() {
           setRunResults('Seriously?! You did it! Way to go!');
         }
         else {
-          setRunResults(`You played ${resultStats.played.length} out of ${resultStats.played.length + resultStats.unplayed.length} characters. You won with ${resultStats.won.length}, and lost with ${resultStats.lost.length}. That's a ${resultStats.ratio}% winrate!`);
+          setRunResults(`You played ${resultStats.played.length} out of ${resultStats.played.length + resultStats.unplayed.length} characters. You won with ${resultStats.won.length}, and lost with ${resultStats.lost.length}. ${resultsTone()}`);
         };
       };
     };

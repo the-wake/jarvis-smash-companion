@@ -1,3 +1,7 @@
+:root {
+  --ssblue: rgb(133, 224, 237);
+}
+
 .App {
   text-align: center;
 }
@@ -25,7 +29,7 @@
 }
 
 .App-link {
-  color: #61dafb;
+  color: var(--ssblue);
 }
 
 /* Begin custom CSS */
@@ -41,9 +45,14 @@ header h1 {
 }
 
 button {
+  background-color: var(--ssblue);
   display: block;
   min-width: 200px;
   margin: 4px 0px;
+  border-radius: 5px;
+  border-width: 2px;
+  border-style: solid;
+  border-color: black;
 }
 
 #main-wrapper {
