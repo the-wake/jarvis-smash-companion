@@ -275,8 +275,11 @@ function App() {
           } else if (resultStats.ratio < 50) {
             return 'Hopefully you\'ll have better luck next time.';
           }
+          else if (resultStats.ratio < 80) {
+            return `That's a ${resultStats.ratio}% winrate.`;
+          }
           else {
-            return `That's a ${resultStats.ratio}% winrate!`;
+            return `That's a ${resultStats.ratio}% winrate. Way to go!`
           }
         };
         if (resultStats.played.length === 0) {
