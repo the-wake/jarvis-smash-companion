@@ -234,8 +234,6 @@ function App() {
   };
 
   const doRandom = e => {
-    console.log(e.target);
-
     if (e.target.id === 'random-skip') {
       randomize();
       return;
@@ -267,6 +265,23 @@ function App() {
         resultStats.lost = recordState.filter((character) => character.status === statusNames[2]);
         resultStats.played = recordState.filter((character) => character.status === statusNames[1] || character.status === statusNames[2]);
         resultStats.ratio = (resultStats.won.length / resultStats.played.length).toFixed(2) * 100;
+        const resultsTone = () => {
+          if (resultStats.ratio === 0) {
+            return 'Must have hit a bracket demon.'
+          } else if (resultStats.played.length <= 2 && resultStats.lost.length < 1) {
+            return 'Maybe try a few more next time.';
+          } else if (resultStats.played.length <= 6 && resultStats.lost.length < 1) {
+            return 'Next time, let\'s go all the way!';
+          } else if (resultStats.ratio < 50) {
+            return 'Hopefully you\'ll have better luck next time.';
+          }
+          else if (resultStats.ratio < 80) {
+            return `That's a ${resultStats.ratio}% winrate.`;
+          }
+          else {
+            return `That's a ${resultStats.ratio}% winrate. Way to go!`
+          }
+        };
         if (resultStats.played.length === 0) {
           setRunResults('It looks like you haven\'t entered any results.')
         }
@@ -274,7 +289,7 @@ function App() {
           setRunResults('Seriously?! You did it! Way to go!');
         }
         else {
-          setRunResults(`You played ${resultStats.played.length} out of ${resultStats.played.length + resultStats.unplayed.length} characters. You won with ${resultStats.won.length}, and lost with ${resultStats.lost.length}. That's a ${resultStats.ratio}% winrate!`);
+          setRunResults(`You played ${resultStats.played.length} out of ${resultStats.played.length + resultStats.unplayed.length} characters. You won with ${resultStats.won.length}, and lost with ${resultStats.lost.length}. ${resultsTone()}`);
         };
       };
     };
@@ -330,16 +345,18 @@ function App() {
               ? <button id={'finish-button'} onClick={finishRun}>Finish Run!</button>
               : <button id={'finish-button'} disabled={true}>Finish Run!</button>
           }
-          <button onClick={newRun}>Begin New Run</button>
+          {
+            JSON.stringify(recordState) !== JSON.stringify(initialRecord)
+              ? <button onClick={newRun}>Begin New Run</button>
+              : <button disabled={true}>Begin New Run</button>
+          }
+
         </div>
         <div id={'dashboard-right'}>
-          {/* {
-            randomChar !== null ? <h3 id={'random-name'}>{randomChar.name}</h3> : null
-          } */}
           <div className={'justify-center'}>
             {
               randomChar !== null
-                ? <img src={`${process.env.PUBLIC_URL}/images/${randomChar.image}`} alt={randomChar.name} className={'char-image'}></img>
+                ? <img src={`${process.env.PUBLIC_URL}/images/${randomChar.image}`} alt={randomChar.name} className={'random-image'}></img>
                 : <button onClick={randomize}>Random Character</button>
             }
           </div>
@@ -363,46 +380,3 @@ function App() {
 };
 
 export default App;
-
-
-
-// Two-column view
-// return (
-//   <div className="App">
-//     <div id={'main-wrapper'}>
-//       <div id={'toolbar'}>
-//         <div id={'button-container'}>
-//           <button onClick={newRun}>Begin New Run</button>
-//           <button onClick={randomize}>Random Character</button>
-//           <div id={'random-area'}>
-//             <h3>{randomChar.name}</h3>
-//             {
-//               randomChar.name
-//                 ? <div>
-//                   <p className={'random-child'} id={`random-${statusNames[1]}`} onClick={doRandom}>Won</p>
-//                   <p className={'random-child'} id={`random-${statusNames[2]}`} onClick={doRandom}>Lost</p>
-//                   <p className={'random-child'} id={'random-skipped'} onClick={doRandom}>Skipped</p>
-//                 </div>
-//                 : null
-//             }
-//           </div>
-//         </div>
-//       </div>
-//       <div id={'list-wrapper'}>
-//         <header>
-//           <h1>
-//             Jarvis: The Smash Bros. Ultimate Ironman Assistant!
-//           </h1>
-//         </header>
-//         <CharList roster={roster} statusNames={statusNames} recordState={recordState} setRecordState={setRecordState} randomChar={randomChar} setRandomChar={setRandomChar} setRunResults={setRunResults} runComplete={runComplete} saveRun={saveRun} checkCompletion={checkCompletion} />
-//         {
-//           JSON.stringify(recordState) !== JSON.stringify(initialRecord)
-//             ? <button id={'finish-button'} onClick={finishRun}>Finish Run!</button>
-//             : <button id={'finish-button'} disabled={true}>Finish Run!</button>
-//         }
-//         <div id={'results-el'}>{runResults}</div>
-//       </div>
-//     </div>
-//   </div>
-// );
-// };

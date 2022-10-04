@@ -1,3 +1,7 @@
+:root {
+  --ssblue: rgb(133, 224, 237);
+}
+
 .App {
   text-align: center;
 }
@@ -25,7 +29,7 @@
 }
 
 .App-link {
-  color: #61dafb;
+  color: var(--ssblue);
 }
 
 /* Begin custom CSS */
@@ -41,9 +45,14 @@ header h1 {
 }
 
 button {
+  background-color: var(--ssblue);
   display: block;
   min-width: 200px;
   margin: 4px 0px;
+  border-radius: 5px;
+  border-width: 2px;
+  border-style: solid;
+  border-color: black;
 }
 
 #main-wrapper {
@@ -116,6 +125,16 @@ button {
   color: #0000FF;
   margin: 0 14px;
   font-weight: bold;
+}
+
+.random-image {
+  width: 100px;
+  height: 66px;
+  border-style: solid;
+  border-width: 2px;
+  border-color: black;
+  border-radius: 13px;
+  box-shadow: black 2px 2px;
 }
 
 #random-area h3 {
