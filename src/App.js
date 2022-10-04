@@ -330,12 +330,14 @@ function App() {
               ? <button id={'finish-button'} onClick={finishRun}>Finish Run!</button>
               : <button id={'finish-button'} disabled={true}>Finish Run!</button>
           }
-          <button onClick={newRun}>Begin New Run</button>
+          {
+            JSON.stringify(recordState) !== JSON.stringify(initialRecord)
+              ? <button onClick={newRun}>Begin New Run</button>
+              : <button disabled={true}>Begin New Run</button>
+          }
+
         </div>
         <div id={'dashboard-right'}>
-          {/* {
-            randomChar !== null ? <h3 id={'random-name'}>{randomChar.name}</h3> : null
-          } */}
           <div className={'justify-center'}>
             {
               randomChar !== null
@@ -363,46 +365,3 @@ function App() {
 };
 
 export default App;
-
-
-
-// Two-column view
-// return (
-//   <div className="App">
-//     <div id={'main-wrapper'}>
-//       <div id={'toolbar'}>
-//         <div id={'button-container'}>
-//           <button onClick={newRun}>Begin New Run</button>
-//           <button onClick={randomize}>Random Character</button>
-//           <div id={'random-area'}>
-//             <h3>{randomChar.name}</h3>
-//             {
-//               randomChar.name
-//                 ? <div>
-//                   <p className={'random-child'} id={`random-${statusNames[1]}`} onClick={doRandom}>Won</p>
-//                   <p className={'random-child'} id={`random-${statusNames[2]}`} onClick={doRandom}>Lost</p>
-//                   <p className={'random-child'} id={'random-skipped'} onClick={doRandom}>Skipped</p>
-//                 </div>
-//                 : null
-//             }
-//           </div>
-//         </div>
-//       </div>
-//       <div id={'list-wrapper'}>
-//         <header>
-//           <h1>
-//             Jarvis: The Smash Bros. Ultimate Ironman Assistant!
-//           </h1>
-//         </header>
-//         <CharList roster={roster} statusNames={statusNames} recordState={recordState} setRecordState={setRecordState} randomChar={randomChar} setRandomChar={setRandomChar} setRunResults={setRunResults} runComplete={runComplete} saveRun={saveRun} checkCompletion={checkCompletion} />
-//         {
-//           JSON.stringify(recordState) !== JSON.stringify(initialRecord)
-//             ? <button id={'finish-button'} onClick={finishRun}>Finish Run!</button>
-//             : <button id={'finish-button'} disabled={true}>Finish Run!</button>
-//         }
-//         <div id={'results-el'}>{runResults}</div>
-//       </div>
-//     </div>
-//   </div>
-// );
-// };
