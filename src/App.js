@@ -329,10 +329,8 @@ function App() {
     localStorage.setItem('stored-run', JSON.stringify(recordState));
     if (JSON.stringify(recordState) !== JSON.stringify(initialRecord)) {
       setFinishActive(true);
-      console.log('Set Finish Active True');
     } else {
       setFinishActive(false);
-      console.log('Set Finish Active False');
     };
     // Why you make me to this, React?
     // eslint-disable-next-line react-hooks/exhaustive-deps
