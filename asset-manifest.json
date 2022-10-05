@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/jarvis-smash-companion/static/css/main.c4fcf5d3.css",
-    "main.js": "/jarvis-smash-companion/static/js/main.f9e595a4.js",
+    "main.js": "/jarvis-smash-companion/static/js/main.8c068e36.js",
     "static/js/787.c90da3a7.chunk.js": "/jarvis-smash-companion/static/js/787.c90da3a7.chunk.js",
     "index.html": "/jarvis-smash-companion/index.html",
     "main.c4fcf5d3.css.map": "/jarvis-smash-companion/static/css/main.c4fcf5d3.css.map",
-    "main.f9e595a4.js.map": "/jarvis-smash-companion/static/js/main.f9e595a4.js.map",
+    "main.8c068e36.js.map": "/jarvis-smash-companion/static/js/main.8c068e36.js.map",
     "787.c90da3a7.chunk.js.map": "/jarvis-smash-companion/static/js/787.c90da3a7.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.c4fcf5d3.css",
-    "static/js/main.f9e595a4.js"
+    "static/js/main.8c068e36.js"
   ]
 }
