@@ -60,15 +60,24 @@ button {
 }
 
 #dashboard {
+  position: sticky;
+  bottom: 0;
+  background-color: white;
+  padding: 20px 0 10px 0;
+}
+
+#console {
   display: flex;
   justify-content: center;
   align-content: center;
   margin: 0 auto;
   max-width: 1360px;
   /* min-height: 250px; */
+  border-top-left-radius: 14px;
+  border-top-right-radius: 14px;
 }
 
-#dashboard button {
+#console button {
   display: block;
   margin: 10px auto;
   height: 35px;
@@ -76,25 +85,27 @@ button {
   font-weight: bolder;
 }
 
-#dashboard-left {
+#console-left {
   width: 48%;
   max-width: 300px;
+  min-width: fit-content;
   margin: auto 0;
 }
 
-#dashboard-right {
+#console-right {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   padding: 8px 0;
   width: 48%;
+  min-width: fit-content;
   max-width: 320px;
   min-height: 100px;
   margin: auto 0;
-  border-style: solid;
+  /* border-style: solid;
   border-width: 2px;
   border-radius: 6px;
-  border-color: black;
+  border-color: black; */
 }
 
 #random-left {
@@ -148,4 +159,20 @@ button {
 
 .random-child:hover {
   cursor: pointer;
+}
+
+@media screen and (max-width: 540px) {
+  #console {
+    flex-direction: column;
+  }
+
+  #console-left {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  #console-right {
+    margin-left: auto;
+    margin-right: auto;
+  }
 }

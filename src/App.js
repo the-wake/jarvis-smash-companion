@@ -330,7 +330,7 @@ function App() {
 
   return (
     <div className="App">
-      <div id={'list-wrapper'}>
+      <div id='list-wrapper'>
         <header>
           <h1>
             Jarvis: The Smash Bros. Ultimate Ironman Assistant!
@@ -338,43 +338,44 @@ function App() {
         </header>
         <CharList roster={roster} statusNames={statusNames} recordState={recordState} setRecordState={setRecordState} randomChar={randomChar} setRandomChar={setRandomChar} setRunResults={setRunResults} runComplete={runComplete} saveRun={saveRun} checkCompletion={checkCompletion} />
       </div>
-      <div id={'dashboard'}>
-        <div id={'dashboard-left'}>
-          {
-            JSON.stringify(recordState) !== JSON.stringify(initialRecord)
-              ? <button id={'finish-button'} onClick={finishRun}>Finish Run!</button>
-              : <button id={'finish-button'} disabled={true}>Finish Run!</button>
-          }
-          {
-            JSON.stringify(recordState) !== JSON.stringify(initialRecord)
-              ? <button onClick={newRun}>Begin New Run</button>
-              : <button disabled={true}>Begin New Run</button>
-          }
-
-        </div>
-        <div id={'dashboard-right'}>
-          <div className={'justify-center'}>
+      <div id='dashboard'>
+        <div id='console'>
+          <div id='console-left'>
             {
-              randomChar !== null
-                ? <img src={`${process.env.PUBLIC_URL}/images/${randomChar.image}`} alt={randomChar.name} className={'random-image'}></img>
-                : <button onClick={randomize}>Random Character</button>
+              JSON.stringify(recordState) !== JSON.stringify(initialRecord)
+                ? <button id='finish-button' onClick={finishRun}>Finish Run!</button>
+                : <button id='finish-button' disabled={true}>Finish Run!</button>
+            }
+            {
+              JSON.stringify(recordState) !== JSON.stringify(initialRecord)
+                ? <button onClick={newRun}>Begin New Run</button>
+                : <button disabled={true}>Begin New Run</button>
             }
           </div>
-          <div>
-            {
-              randomChar !== null
-                ? <div id={'random-commands'}>
-                  <p className={'random-child'} id={`random-${statusNames[1]}`} onClick={doRandom}>Won</p>
-                  <p className={'random-child'} id={`random-${statusNames[2]}`} onClick={doRandom}>Lost</p>
-                  <p className={'random-child'} id={'random-skip'} onClick={doRandom}>Skip</p>
-                  <p className={'random-child'} id={'random-clear'} onClick={clearRandom}>Clear</p>
-                </div>
-                : null
-            }
+          <div id='console-right'>
+            <div className='justify-center'>
+              {
+                randomChar !== null
+                  ? <img src={`${process.env.PUBLIC_URL}/images/${randomChar.image}`} alt={randomChar.name} className={'random-image'}></img>
+                  : <button onClick={randomize}>Random Character</button>
+              }
+            </div>
+            <div>
+              {
+                randomChar !== null
+                  ? <div id='random-commands'>
+                    <p className='random-child' id={`random-${statusNames[1]}`} onClick={doRandom}>Won</p>
+                    <p className='random-child' id={`random-${statusNames[2]}`} onClick={doRandom}>Lost</p>
+                    <p className='random-child' id={'random-skip'} onClick={doRandom}>Skip</p>
+                    <p className='random-child' id={'random-clear'} onClick={clearRandom}>Clear</p>
+                  </div>
+                  : null
+              }
+            </div>
           </div>
         </div>
+        <p id='results-el'>{runResults}</p>
       </div>
-      <p id={'results-el'}>{runResults}</p>
     </div>
   );
 };
