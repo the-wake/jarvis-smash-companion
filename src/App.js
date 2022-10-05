@@ -209,6 +209,7 @@ function App() {
   const [runResults, setRunResults] = useState();
   const [runComplete, setRunComplete] = useState(false);
   const [dummyState, setDummyState] = useState(true);
+  const [finishActive, setFinishActive] = useState(false);
 
   // console.log(recordState);
 
@@ -259,6 +260,7 @@ function App() {
       const confirmFinish = window.confirm('Finish this run?')
       if (confirmFinish) {
         setRunComplete(true);
+        setFinishActive(false);
         let resultStats = {}
         resultStats.unplayed = recordState.filter((character) => character.status === statusNames[0]);
         resultStats.won = recordState.filter((character) => character.status === statusNames[1]);
@@ -308,6 +310,7 @@ function App() {
       setRandomChar(null);
       setRunResults();
       setRunComplete(false);
+      setFinishActive(false);
       setDummyState(!dummyState);
     };
   };
@@ -324,6 +327,15 @@ function App() {
   useEffect(() => {
     // This should just run saveRun(), but it gives a dependency warning when I run it that way.
     localStorage.setItem('stored-run', JSON.stringify(recordState));
+    if (JSON.stringify(recordState) !== JSON.stringify(initialRecord)) {
+      setFinishActive(true);
+      console.log('Set Finish Active True');
+    } else {
+      setFinishActive(false);
+      console.log('Set Finish Active False');
+    };
+    // Why you make me to this, React?
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [recordState]);
 
   // Could add a filter to combine characters with their clones.
@@ -342,7 +354,7 @@ function App() {
         <div id='console'>
           <div id='console-left'>
             {
-              JSON.stringify(recordState) !== JSON.stringify(initialRecord)
+              finishActive === true
                 ? <button id='finish-button' onClick={finishRun}>Finish Run!</button>
                 : <button id='finish-button' disabled={true}>Finish Run!</button>
             }
