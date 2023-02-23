@@ -12,8 +12,8 @@
 # testing
 /coverage
 
-# production
-/build
+# production - We've turned build back on so that we can deploy it via VPS.
+# /build
 
 # misc
 .DS_Store
